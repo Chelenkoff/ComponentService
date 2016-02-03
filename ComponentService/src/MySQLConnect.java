@@ -376,7 +376,7 @@ public class MySQLConnect {
 		  preparedStatement = connect.prepareStatement("CALL component_info (?)");
 		  
 	      // (id)
-	      // Parameters start with 1
+	      // Parameters start with 1asd
 		  preparedStatement.setString(1,componentId);
 		  resultSet = preparedStatement.executeQuery();
 	      if(resultSet.next()){
