@@ -6,7 +6,7 @@ import javax.swing.JTextField;
 
 public class ObservingTextField extends JTextField implements Observer {
     /**
-	 * 
+	 *  Dynamic updatable Data class
 	 */
 	private static final long serialVersionUID = 1L;
 

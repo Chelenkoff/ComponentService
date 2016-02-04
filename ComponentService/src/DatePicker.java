@@ -53,7 +53,6 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
 		private static final long serialVersionUID = 1L;
 		private DatePicker parent;
 
-        
         public DayLabel(DatePicker parent, int day) {
             super(Integer.toString(day));
             this.parent = parent;
@@ -294,7 +293,8 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
             }
             
         }
-        private void setMonthComboBox(Calendar c)
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+		private void setMonthComboBox(Calendar c)
         {
             if(months==null)
             {    
@@ -307,7 +307,7 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
             }
             if(monthBox==null)
             {
-                monthBox=new JComboBox();
+                monthBox=new JComboBox<String>();
                 monthBox.addActionListener(this);
                 monthBox.setFont(DatePicker.plain);
                 monthBox.setSize(monthBox.getWidth(),height);
@@ -316,7 +316,8 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
             monthBox.setModel(new DefaultComboBoxModel(months));
             monthBox.setSelectedIndex(c.get(Calendar.MONTH));
          }
-        private void setYearComboBox(Calendar c)
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+		private void setYearComboBox(Calendar c)
         {
             int y=c.get(Calendar.YEAR);
             years=new Integer[7];
@@ -326,7 +327,7 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
             }
             if(yearBox==null)
             {
-                yearBox = new JComboBox();
+                yearBox = new JComboBox<String>();
                 yearBox.addActionListener(this);
                 yearBox.setFont(DatePicker.plain);
                 yearBox.setSize(yearBox.getWidth(),height);
@@ -364,7 +365,8 @@ public class DatePicker extends Observable implements Runnable, WindowFocusListe
             }
             else if(src instanceof JComboBox)
             {
-                JComboBox jcb = (JComboBox)src;
+                @SuppressWarnings("rawtypes")
+				JComboBox jcb = (JComboBox)src;
                 if(src==monthBox)
                 {
                     c.set(Calendar.MONTH,jcb.getSelectedIndex());
