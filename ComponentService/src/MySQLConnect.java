@@ -1,13 +1,11 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
-
 
 public class MySQLConnect {
 	
@@ -34,18 +32,20 @@ public class MySQLConnect {
 	  private String componentType;
 	  private String componentModel;
 	  private String componentEntryDate;
-	  private java.sql.Date componentReadyDate;
+	  private Date componentReadyDate;
 	  private String componentClientFirstName;
 	  private String componentClientLastName;
 	  private String componentClientTelNum;
 	  private String componentStatus;
 	  private float componentOrderPrice;
 	  private String componentDiagnosticResults;
-
-
-
 	  
-	  //Connecting to database method
+	  // Database data
+	  private static final String DB_NAME = "component_service";
+	  private static final String DB_USERNAME = "root";
+	  private static final String DB_PASS = "Veca1994"; 
+  
+	  //Connecting to database
 	  public void connectToDatabase(){
 			try
 		    {
@@ -57,23 +57,23 @@ public class MySQLConnect {
 	        }
 			
 			try {
+				String dbUrl = "jdbc:mysql://localhost/" + DB_NAME + "?user=" + DB_USERNAME + "&password=" + DB_PASS;
 				connect = DriverManager
-				          .getConnection("jdbc:mysql://localhost/component_service?"
-				              + "user=root&password=1994");
+						.getConnection(dbUrl);
 				System.out.println("SQL Connection to database established!");
 				hasConnected = true;
 			} catch (SQLException e){
-	            System.out.println("Connection Failed! Check output console");
+	            System.out.println("Unable to connect to database");
 	            hasConnected = false;
 	            return;
 			}
 	  }
 	  
-	  //Getters
 	  public boolean hasConnected(){
 		  return hasConnected;
 	  }
 	  
+	  //Getters
 	  public String technicianResult(){
 		  return technicianResult;
 	  }
@@ -89,7 +89,6 @@ public class MySQLConnect {
 	  }
 
 	  public String componentDiagnosticResults(){
-
 		  return componentDiagnosticResults;
 	  }
 	  
@@ -107,9 +106,7 @@ public class MySQLConnect {
 		  		return "Ready";
 		  	default:
 		  		return "";
-		  }
-		  
-		  
+		  }	  
 	  }
 	  
 	  public String componentClientTelNum(){
@@ -124,7 +121,7 @@ public class MySQLConnect {
 		  return componentClientFirstName;
 	  }
 	  
-	  public java.sql.Date componentReadyDate(){
+	  public Date componentReadyDate(){
 		  return componentReadyDate;
 	  }
 	  
@@ -202,8 +199,7 @@ public class MySQLConnect {
 	  	//Add technician
 	  public void addTechnician(String firstName,String middleName,String lastName,String tel,String email) throws SQLException{
 	      preparedStatement = connect.prepareStatement("CALL add_technician (?, ?, ?, ?,?)");
-	      // ('first_name', 'middle_name', 'last_name', 'tel_num', 'email')
-	      // Parameters start with 1
+	      //Params: ('first_name', 'middle_name', 'last_name', 'tel_num', 'email')
 	      
 	      if(middleName.equals(null) || middleName.equals("")){
 	    	  middleName = "NULL";
@@ -232,8 +228,7 @@ public class MySQLConnect {
 	  	//Add client
 	  public void addClient(String firstName,String lastName,String tel) throws SQLException{
 	      preparedStatement = connect.prepareStatement("CALL add_client (?, ?, ?)");
-	      // ('first_name', 'last_name', 'tel_num')
-	      // Parameters start with 1
+	      //Params: ('first_name', 'last_name', 'tel_num')
 	      
 	      preparedStatement.setString(1,firstName);
 	      preparedStatement.setString(2,lastName);
@@ -253,8 +248,7 @@ public class MySQLConnect {
 	  	//Create order
 	  public void createOrder(String compType,String compModel,String clientId,String technicianId,String date) throws SQLException{
 		  preparedStatement = connect.prepareStatement("CALL create_order (?, ?, ?, ?, ?)");
-	      // (compType, compModel, clientId,technicId,entryDate)
-	      // Parameters start with 1
+	      //Params: (compType, compModel, clientId,technicId,entryDate)
 	      
 	      preparedStatement.setString(1,compType);
 	      preparedStatement.setString(2,compModel);
@@ -264,17 +258,15 @@ public class MySQLConnect {
 	      resultSet = preparedStatement.executeQuery();
 	      
 	      if(resultSet.next())
-	    	  newOrderResult = resultSet.getString("result");
-	      
-	      
+	    	  newOrderResult = resultSet.getString("result"); 
 	  }
 	  
 	  	//Check if column exists in database
 	  public static boolean hasColumn(ResultSet rs, String columnName) throws SQLException {
 		    ResultSetMetaData rsmd = rs.getMetaData();
 		    int columns = rsmd.getColumnCount();
-		    for (int x = 1; x <= columns; x++) {
-		        if (columnName.equals(rsmd.getColumnName(x))) {
+		    for (int numOfCol = 1; numOfCol <= columns; numOfCol++) {
+		        if (columnName.equals(rsmd.getColumnName(numOfCol))) {
 		            return true;
 		        }
 		    }
@@ -343,7 +335,6 @@ public class MySQLConnect {
 		  return resultSet;
 	  }
 	  
-	  
 	  public void showTasks(String id) throws SQLException{
 
 		  String  technicId = id.substring(id.indexOf(":")+1,id.indexOf(" "));
@@ -351,7 +342,6 @@ public class MySQLConnect {
 		  ArrayList<String> types = new ArrayList<String>(); 
 		  ArrayList<String> models = new ArrayList<String>(); 
 		  ArrayList<String> components = new ArrayList<String>();
-		  
 		  
 		  preparedStatement = connect.prepareStatement("SELECT order_id,type,model FROM components " +
 		  												"WHERE technic_id = " + technicId +" ORDER BY order_id");
