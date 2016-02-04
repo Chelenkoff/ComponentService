@@ -1,50 +1,39 @@
 import java.awt.EventQueue;
-
-import javax.security.sasl.AuthorizeCallback;
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Image;
-import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
-import javax.swing.JPanel;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
-
-
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.DocumentFilter;
 
+import java.sql.SQLException;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+import java.util.Locale;
 
 public class ComponentService {
 
-	//Variables
-
-	
 	private JFrame frame;
 	
 	private  JPanel officePanel;
@@ -53,7 +42,6 @@ public class ComponentService {
 	private JPanel newOrderPanel;
 	private JPanel checkOrderStatusPanel;
 	private JPanel newClientPanel;
-	private JPanel newTechnicianPanel;
 	private JPanel myTasksPanel;
 	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
@@ -79,7 +67,6 @@ public class ComponentService {
 	private JLabel newOrderBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
 	private JLabel newClientBackgroundLabel;
-	private JLabel newTechnicianBackgroundLabel;
 	private JLabel databaseConnectedLabel;
 	private JLabel MyTasksOrderIdLbl;
 	
@@ -107,10 +94,6 @@ public class ComponentService {
 	private Image repairComponentBtnRollover;
 	private Image repairDetailsBtnIcon;
 	private Image repairDetailsBtnRollover;
-	private Image newOrderBackBtnIcon;
-	private Image newOrderBackBtnRollover;
-	private Image checkStatusBackBtnIcon;
-	private Image checkStatusBackBtnRollover;
 	private Image backBtn;
 	private Image backRolloverBtn;
 	private Image serviceBackground;
@@ -131,22 +114,13 @@ public class ComponentService {
 	private JButton newOrderBackBtn;
 	private JButton checkStatusBackBtn;
 	private JButton newClientBackBtn;
-	private JButton newTechnicianBackBtn;
 	private JButton myTasksBackBtn;
 	private JButton repairComponentBackBtn;
 	private JButton repairDetailsBackBtn;
 	private JButton repairCompSubmitBtn;
 	
-	private JTextField firstNametxtField;
-	private JTextField technicianFirstNametxtField;
 	private JTextField clientFirstNametxtField;
-	private JTextField technicianMiddleNametxtField;
 	private JTextField clientLastNametxtField;
-	private JTextField technicianLastNametxtField;
-	private JLabel emailLabel;
-	private JTextField technicianEmailtxtField;
-	private JLabel telNumLabel;
-	private JTextField technicianTelNumtxtField;
 	private JLabel clientTelLabel;
 	private JTextField clientTelTextField;
 	
@@ -156,7 +130,6 @@ public class ComponentService {
 	private static MySQLConnect databaseConnection;
 	private static ComponentService window;
 	private JLabel requiredClientLbl;
-	private JButton clearTechnicianBtn;
 	private JLabel newOrderlbl;
 	private JLabel componentTypelbl;
 	private JTextField componentTypeTxtField;
@@ -251,13 +224,7 @@ public class ComponentService {
 		frame.getContentPane().add(newOrderPanel);
 		newOrderPanel.setLayout(null);
 		newOrderPanel.setVisible(false);
-		
-		newTechnicianPanel = new JPanel();
-		newTechnicianPanel.setBounds(0, 0, 614, 344);
-		frame.getContentPane().add(newTechnicianPanel);
-		newTechnicianPanel.setLayout(null);
-		newTechnicianPanel.setVisible(false);
-		
+				
 		newClientPanel = new JPanel();
 		newClientPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(newClientPanel);
@@ -420,25 +387,7 @@ public class ComponentService {
 	newClientBackBtn.setIcon(new ImageIcon(backBtn));
 	newClientBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
 	newClientPanel.add(newClientBackBtn);
-		
-		//New Technician Back Button
-	newTechnicianBackBtn = new JButton("");
-	newTechnicianBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			newTechnicianPanel.setVisible(false);
-			officePanel.setVisible(true);
 			
-			
-		}
-	});
-	newTechnicianBackBtn.setBounds(0, 294, 50, 50);
-	newTechnicianBackBtn.setContentAreaFilled(false);
-	newTechnicianBackBtn.setBorderPainted(false);
-	newTechnicianBackBtn.setRolloverEnabled(true);
-	newTechnicianBackBtn.setIcon(new ImageIcon(backBtn));
-	newTechnicianBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	newTechnicianPanel.add(newTechnicianBackBtn);
-	
 		//My Tasks Back Button
 	myTasksBackBtn = new JButton("");
 	myTasksBackBtn.addActionListener(new ActionListener() {
@@ -621,9 +570,9 @@ public class ComponentService {
 		newTechnicianBtn = new JButton("");
 		newTechnicianBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				officePanel.setVisible(false);
-				newTechnicianPanel.setVisible(true);
 				
+				 NewTechnicianTab newTechTab = new NewTechnicianTab(officePanel,databaseConnection);
+				 frame.getContentPane().add(newTechTab.getNewTechnicianPanel());
 			}
 		});
 		newTechnicianBtn.setBounds(0, 161, 190, 40);
@@ -1017,140 +966,6 @@ public class ComponentService {
 		newClientBackgroundLabel.setBounds(0, 0, 614, 344);
 		newClientPanel.add(newClientBackgroundLabel);
 		newClientBackgroundLabel.setIcon(new ImageIcon(officeBackground));
-		
-			//Add Technician Components
-		JLabel hireTechLabel = new JLabel("Hire a technician");
-		hireTechLabel.setForeground(SystemColor.textHighlight);
-		hireTechLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		hireTechLabel.setBounds(10, 11, 300, 50);
-		newTechnicianPanel.add(hireTechLabel);
-		
-		JButton submitNewTechnicianBtn = new JButton("Submit");
-		submitNewTechnicianBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					databaseConnection.addTechnician(technicianFirstNametxtField.getText(), technicianMiddleNametxtField.getText(),
-							technicianLastNametxtField.getText(), technicianTelNumtxtField.getText(), technicianEmailtxtField.getText());
-					
-					JOptionPane.showMessageDialog(frame,
-						    databaseConnection.technicianResult(),
-						    "Warning",
-						    JOptionPane.INFORMATION_MESSAGE);
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		submitNewTechnicianBtn.setFont(new Font("Tahoma", Font.BOLD, 16));
-		submitNewTechnicianBtn.setForeground(Color.WHITE);
-		submitNewTechnicianBtn.setBackground(SystemColor.textHighlight);
-		submitNewTechnicianBtn.setBounds(484, 123, 91, 75);
-		newTechnicianPanel.add(submitNewTechnicianBtn);
-		
-		JLabel firstNamelabel = new JLabel("First name:");
-		firstNamelabel.setForeground(Color.RED);
-		firstNamelabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		firstNamelabel.setBounds(130, 72, 140, 50);
-		newTechnicianPanel.add(firstNamelabel);
-		
-		JLabel middleNameLabel = new JLabel("Middle name:");
-		middleNameLabel.setForeground(SystemColor.textHighlight);
-		middleNameLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		middleNameLabel.setBounds(133, 133, 137, 50);
-		newTechnicianPanel.add(middleNameLabel);
-		
-		JLabel lastNameLabel = new JLabel("Last name:");
-		lastNameLabel.setForeground(Color.RED);
-		lastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		lastNameLabel.setBounds(130, 194, 137, 50);
-		newTechnicianPanel.add(lastNameLabel);
-		
-		technicianFirstNametxtField = new JTextField();
-		technicianFirstNametxtField.setBackground(SystemColor.textHighlight);
-		technicianFirstNametxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		technicianFirstNametxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		technicianFirstNametxtField.setForeground(Color.WHITE);
-		technicianFirstNametxtField.setBounds(280, 76, 153, 46);
-		newTechnicianPanel.add(technicianFirstNametxtField);
-		technicianFirstNametxtField.setColumns(10);
-		
-		technicianMiddleNametxtField = new JTextField();
-		technicianMiddleNametxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		technicianMiddleNametxtField.setForeground(Color.WHITE);
-		technicianMiddleNametxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		technicianMiddleNametxtField.setColumns(10);
-		technicianMiddleNametxtField.setBackground(SystemColor.textHighlight);
-		technicianMiddleNametxtField.setBounds(280, 137, 153, 46);
-		newTechnicianPanel.add(technicianMiddleNametxtField);
-		
-		technicianLastNametxtField = new JTextField();
-		technicianLastNametxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		technicianLastNametxtField.setForeground(Color.WHITE);
-		technicianLastNametxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		technicianLastNametxtField.setColumns(10);
-		technicianLastNametxtField.setBackground(SystemColor.textHighlight);
-		technicianLastNametxtField.setBounds(280, 198, 153, 46);
-		newTechnicianPanel.add(technicianLastNametxtField);
-		
-		emailLabel = new JLabel("Email:");
-		emailLabel.setForeground(SystemColor.textHighlight);
-		emailLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		emailLabel.setBounds(84, 269, 68, 50);
-		newTechnicianPanel.add(emailLabel);
-		
-		technicianEmailtxtField = new JTextField();
-		technicianEmailtxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		technicianEmailtxtField.setForeground(Color.WHITE);
-		technicianEmailtxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		technicianEmailtxtField.setColumns(10);
-		technicianEmailtxtField.setBackground(SystemColor.textHighlight);
-		technicianEmailtxtField.setBounds(157, 273, 187, 46);
-		newTechnicianPanel.add(technicianEmailtxtField);
-		
-		telNumLabel = new JLabel("Tel:");
-		telNumLabel.setForeground(Color.RED);
-		telNumLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		telNumLabel.setBounds(354, 269, 68, 50);
-		newTechnicianPanel.add(telNumLabel);
-		
-		technicianTelNumtxtField = new JTextField();
-		technicianTelNumtxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		technicianTelNumtxtField.setForeground(Color.WHITE);
-		technicianTelNumtxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		technicianTelNumtxtField.setColumns(10);
-		technicianTelNumtxtField.setBackground(SystemColor.textHighlight);
-		technicianTelNumtxtField.setBounds(403, 273, 200, 46);
-		newTechnicianPanel.add(technicianTelNumtxtField);
-		
-		JLabel requiredTechLbl = new JLabel("(*)required");
-		requiredTechLbl.setForeground(Color.RED);
-		requiredTechLbl.setFont(new Font("Tahoma", Font.ITALIC, 15));
-		requiredTechLbl.setBounds(522, 318, 81, 26);
-		newTechnicianPanel.add(requiredTechLbl);
-			
-			//Clear Technician Button
-		clearTechnicianBtn = new JButton("Clear");
-		clearTechnicianBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				technicianFirstNametxtField.setText("");
-				technicianMiddleNametxtField.setText("");
-				technicianLastNametxtField.setText("");
-				technicianEmailtxtField.setText("");
-				technicianTelNumtxtField.setText("");
-			}
-		});
-		clearTechnicianBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		clearTechnicianBtn.setBackground(Color.RED);
-		clearTechnicianBtn.setForeground(Color.WHITE);
-		clearTechnicianBtn.setBounds(484, 89, 91, 23);
-		newTechnicianPanel.add(clearTechnicianBtn);
-			//NewTechnician Background
-		newTechnicianBackgroundLabel = new JLabel("");
-		newTechnicianBackgroundLabel.setBounds(0, 0, 614, 344);
-		newTechnicianPanel.add(newTechnicianBackgroundLabel);
-		newTechnicianBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 		
 		//Service Background IMG
 		serviceBackground = new ImageIcon(this.getClass().getResource("/service_background.png")).getImage();
@@ -1662,8 +1477,6 @@ public class ComponentService {
 		JButton repairCompPickDateBtn = new JButton(". . .");
 		repairCompPickDateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				String lang = null;
-				final Locale locale = getLocale(lang);
 				DatePicker dp = new DatePicker(repairCompReadyTxtField);
 				Date selectedDate = dp.parseDate(repairCompReadyTxtField.getText());
 				dp.setSelectedDate(selectedDate);
