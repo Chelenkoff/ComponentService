@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 
 import java.sql.SQLException;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,7 +38,6 @@ public class NewTechnicianTab {
 	private Image backRolloverBtn;
 	private Image newTechnicianBackground;
 
-
 	private JTextField technicianFirstNametxtField;
 	private JTextField technicianMiddleNametxtField;
 	private JTextField technicianLastNametxtField;
@@ -65,25 +66,8 @@ public class NewTechnicianTab {
 		submitNewTechnicianBtn.setBackground(SystemColor.textHighlight);
 		submitNewTechnicianBtn.setForeground(Color.WHITE);
 		submitNewTechnicianBtn.setBounds(484, 123, 91, 75);
-		//'Submit' action
-		submitNewTechnicianBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					databaseConnection.addTechnician(technicianFirstNametxtField.getText(), technicianMiddleNametxtField.getText(),
-							technicianLastNametxtField.getText(), technicianTelNumtxtField.getText(), technicianEmailtxtField.getText());
+		addSubmitButtonAction(parent, databaseConnection);
 
-					JOptionPane.showMessageDialog(parent,
-							databaseConnection.technicianResult(),
-							"Warning",
-							JOptionPane.INFORMATION_MESSAGE);
-
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		newTechnicianPanel.add(submitNewTechnicianBtn);
 
 		//'Clear' Button
 		clearTechnicianBtn = new JButton("Clear");
@@ -91,16 +75,8 @@ public class NewTechnicianTab {
 		clearTechnicianBtn.setBackground(Color.RED);
 		clearTechnicianBtn.setForeground(Color.WHITE);
 		clearTechnicianBtn.setBounds(484, 89, 91, 23);
-		clearTechnicianBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				technicianFirstNametxtField.setText("");
-				technicianMiddleNametxtField.setText("");
-				technicianLastNametxtField.setText("");
-				technicianEmailtxtField.setText("");
-				technicianTelNumtxtField.setText("");
-			}
-		});
-		newTechnicianPanel.add(clearTechnicianBtn);
+		addClearButtonAction();
+
 
 		//'Back' Button
 		//BackButton design settings
@@ -120,39 +96,31 @@ public class NewTechnicianTab {
 				newTechnicianPanel.setVisible(false);
 			}
 		});
-		newTechnicianPanel.add(newTechnicianBackBtn);
 
 		//Labels
 		//'Hire Technician' main label
 		hireTechLabel = new JLabel("Hire a technician");
 		designLabel(hireTechLabel, SystemColor.textHighlight,new Font("Tahoma", Font.BOLD, 30), 10, 11, 300, 50);
-		newTechnicianPanel.add(hireTechLabel);
-
 
 		//'First Name' label
 		firstNamelabel = new JLabel("First name:");
 		designLabel(firstNamelabel, Color.RED,new Font("Tahoma", Font.BOLD, 20), 130, 72, 140, 50);
-		newTechnicianPanel.add(firstNamelabel);
 
 		//'Middle Name' label
 		middleNameLabel = new JLabel("Middle name:");
-		designLabel(middleNameLabel, Color.RED,new Font("Tahoma", Font.BOLD, 20), 133, 133, 137, 50);
-		newTechnicianPanel.add(middleNameLabel);
+		designLabel(middleNameLabel,  SystemColor.textHighlight,new Font("Tahoma", Font.BOLD, 20), 133, 133, 137, 50);
 
 		//'Last Name' label
 		lastNameLabel = new JLabel("Last name:");
 		designLabel(lastNameLabel, Color.RED,new Font("Tahoma", Font.BOLD, 20), 130, 194, 137, 50);
-		newTechnicianPanel.add(lastNameLabel);
 
 		//'Email' label
 		emailLabel = new JLabel("Email:");
 		designLabel(emailLabel, SystemColor.textHighlight,new Font("Tahoma", Font.BOLD, 20), 84, 269, 68, 50);
-		newTechnicianPanel.add(emailLabel);
 
 		//'Tel Num' label
 		telNumLabel = new JLabel("Tel:");
 		designLabel(telNumLabel, Color.RED,new Font("Tahoma", Font.BOLD, 20), 354, 269, 68, 50);
-		newTechnicianPanel.add(telNumLabel);
 
 		//'*' required symbol label
 		requiredTechLbl = new JLabel("(*)required");
@@ -166,60 +134,56 @@ public class NewTechnicianTab {
 		designTextfield(technicianFirstNametxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 280, 76, 153, 46, 10);
-		newTechnicianPanel.add(technicianFirstNametxtField);
 
 		//'Middle Name' txtField
 		technicianMiddleNametxtField = new JTextField();
-		designTextfield(technicianFirstNametxtField, SystemColor.textHighlight,
+		designTextfield(technicianMiddleNametxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 280, 137, 153, 46, 10);
-		newTechnicianPanel.add(technicianMiddleNametxtField);
 
 		//'Last Name' txtField
 		technicianLastNametxtField = new JTextField();
-		designTextfield(technicianFirstNametxtField, SystemColor.textHighlight,
+		designTextfield(technicianLastNametxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 280, 198, 153, 46, 10);
-		newTechnicianPanel.add(technicianLastNametxtField);
 
 		//'Email' txtField
 		technicianEmailtxtField = new JTextField();
-		designTextfield(technicianFirstNametxtField, SystemColor.textHighlight,
+		designTextfield(technicianEmailtxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 157, 273, 187, 46, 10);
-		newTechnicianPanel.add(technicianEmailtxtField);
 
 		//'Tel Num' txtField
 		technicianTelNumtxtField = new JTextField();
-		designTextfield(technicianFirstNametxtField, SystemColor.textHighlight,
+		designTextfield(technicianTelNumtxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 403, 273, 200, 46, 10);
-		newTechnicianPanel.add(technicianTelNumtxtField);
 
 		//NewTechnician Background
 		newTechnicianBackground = new ImageIcon(this.getClass().getResource("/office_backgrond.png")).getImage();
 		newTechnicianBackgroundLabel = new JLabel("");
 		newTechnicianBackgroundLabel.setBounds(0, 0, 614, 344);
 		newTechnicianBackgroundLabel.setIcon(new ImageIcon(newTechnicianBackground));
-		newTechnicianPanel.add(newTechnicianBackgroundLabel);
 
+		//Adding components to 'New Technician' panel
+		addComponentsToPanel();
 	}
 
 	//Panel Getter
 	public JPanel getNewTechnicianPanel(){
 		return newTechnicianPanel;
 	}
-	
+
 	//Label design method
 	private void designLabel(JLabel label, Color foregroundColor, Font font, int x , int y, int width, int height){
 		label.setForeground(foregroundColor);
 		label.setFont(font);
 		label.setBounds(x, y, width, height);
 	}
-	
+
 	//Textfield design method
 	private void designTextfield(JTextField txtField, Color backgroundColor, int horizontalAlign, Font font, Color foregroundColor,
-								int x, int y, int width, int height, int numOfCols){
+			int x, int y, int width, int height, int numOfCols){
 		txtField.setBackground(backgroundColor);
 		txtField.setHorizontalAlignment(horizontalAlign);
 		txtField.setFont(font);
@@ -227,5 +191,84 @@ public class NewTechnicianTab {
 		txtField.setBounds(x, y, width, height);
 		txtField.setColumns(numOfCols);
 	}
+
+	//Adding components to main panel method
+	private void addComponentsToPanel(){
+		
+		newTechnicianPanel.add(submitNewTechnicianBtn);
+		newTechnicianPanel.add(clearTechnicianBtn);
+		newTechnicianPanel.add(newTechnicianBackBtn);
+
+		newTechnicianPanel.add(hireTechLabel);
+		newTechnicianPanel.add(firstNamelabel);
+		newTechnicianPanel.add(middleNameLabel);
+		newTechnicianPanel.add(lastNameLabel);
+		newTechnicianPanel.add(emailLabel);
+		newTechnicianPanel.add(telNumLabel);
+
+		newTechnicianPanel.add(technicianFirstNametxtField);
+		newTechnicianPanel.add(technicianMiddleNametxtField);
+		newTechnicianPanel.add(technicianLastNametxtField);
+		newTechnicianPanel.add(technicianTelNumtxtField);
+		newTechnicianPanel.add(technicianEmailtxtField);
+		
+		newTechnicianPanel.add(newTechnicianBackgroundLabel);
+	}
+	
+	//'Submit' button action
+	private void addSubmitButtonAction(final JPanel parent,final MySQLConnect db){
+		submitNewTechnicianBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					
+					//Email address validation
+					if(!(isValidEmailAddress(technicianEmailtxtField.getText())) && !technicianEmailtxtField.getText().equals("")){
+						JOptionPane.showMessageDialog(parent,
+								"Your email address is incorrect!\nYou can either correct it or leave it blank!",
+								"Error",
+								JOptionPane.INFORMATION_MESSAGE);
+					}
+					
+					db.addTechnician(technicianFirstNametxtField.getText(), technicianMiddleNametxtField.getText(),
+							technicianLastNametxtField.getText(), technicianTelNumtxtField.getText(), technicianEmailtxtField.getText());
+
+					JOptionPane.showMessageDialog(parent,
+							db.technicianResult(),
+							"Warning",
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(parent,
+							"Not connected to a database",
+							"Error",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
+	}
+	
+	//'Clear' Button action
+	private void addClearButtonAction(){
+		clearTechnicianBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				technicianFirstNametxtField.setText("");
+				technicianMiddleNametxtField.setText("");
+				technicianLastNametxtField.setText("");
+				technicianEmailtxtField.setText("");
+				technicianTelNumtxtField.setText("");
+			}
+		});
+	}
+	
+	public static boolean isValidEmailAddress(String email) {
+		   boolean result = true;
+		   try {
+		      InternetAddress emailAddr = new InternetAddress(email);
+		      emailAddr.validate();
+		   } catch (AddressException ex) {
+		      result = false;
+		   }
+		   return result;
+		}
 
 }
