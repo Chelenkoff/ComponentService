@@ -34,8 +34,6 @@ public class NewTechnicianTab extends AbstractTab{
 	private JLabel telNumLabel;
 	private JLabel requiredTechLbl;
 
-	private Image backBtn;
-	private Image backRolloverBtn;
 	private Image newTechnicianBackground;
 
 	private JTextField technicianFirstNametxtField;
@@ -53,43 +51,30 @@ public class NewTechnicianTab extends AbstractTab{
 	}
 
 	//UI initialization 
-	 void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
+	void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
 		//Creating 'New Technician' panel
 		newTechnicianPanel = new JPanel();
-		newTechnicianPanel.setBounds(0, 0, 614, 344);
-		newTechnicianPanel.setLayout(null);
-		newTechnicianPanel.setVisible(true);
+		designPanel(newTechnicianPanel, 0, 0, 614, 344);
 
 		//'Submit' Button
 		submitNewTechnicianBtn = new JButton("Submit");
-		submitNewTechnicianBtn.setFont(new Font("Tahoma", Font.BOLD, 16));
-		submitNewTechnicianBtn.setBackground(SystemColor.textHighlight);
-		submitNewTechnicianBtn.setForeground(Color.WHITE);
-		submitNewTechnicianBtn.setBounds(484, 123, 91, 75);
+		designStandartButton(submitNewTechnicianBtn, new Font("Tahoma", Font.BOLD, 16),
+				SystemColor.textHighlight, Color.WHITE, 484, 123, 91, 75);
 		addSubmitButtonAction(parent, databaseConnection);
 
 
 		//'Clear' Button
 		clearTechnicianBtn = new JButton("Clear");
-		clearTechnicianBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		clearTechnicianBtn.setBackground(Color.RED);
-		clearTechnicianBtn.setForeground(Color.WHITE);
-		clearTechnicianBtn.setBounds(484, 89, 91, 23);
+		designStandartButton(clearTechnicianBtn, new Font("Tahoma", Font.PLAIN, 16),
+				Color.RED, Color.WHITE, 484, 89, 91, 23);
 		addClearButtonAction();
 
 
 		//'Back' Button
 		//BackButton design settings
-		backBtn = new ImageIcon(this.getClass().getResource("/back_blackwhite.png")).getImage();
-		backRolloverBtn = new ImageIcon(this.getClass().getResource("/back_colored.png")).getImage();
-
 		newTechnicianBackBtn = new JButton("");
-		newTechnicianBackBtn.setBounds(0, 294, 50, 50);
-		newTechnicianBackBtn.setContentAreaFilled(false);
-		newTechnicianBackBtn.setBorderPainted(false);
-		newTechnicianBackBtn.setRolloverEnabled(true);
-		newTechnicianBackBtn.setIcon(new ImageIcon(backBtn));
-		newTechnicianBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
+		designRolloverButton(newTechnicianBackBtn, this.getClass().getResource("/back_blackwhite.png"),
+				this.getClass().getResource("/back_colored.png"), 0, 294, 50, 50);
 		addBackButtonAction(parent);
 
 		//Labels
@@ -120,7 +105,7 @@ public class NewTechnicianTab extends AbstractTab{
 		//'*' required symbol label
 		requiredTechLbl = new JLabel("(*)required");
 		designLabel(requiredTechLbl, Color.RED,new Font("Tahoma", Font.ITALIC, 15), 522, 318, 81, 26);
-		newTechnicianPanel.add(requiredTechLbl);
+		
 
 		//Textfields
 
@@ -171,8 +156,8 @@ public class NewTechnicianTab extends AbstractTab{
 
 
 	//Adding components to main panel 
-	 void addComponentsToPanel(){
-		
+	void addComponentsToPanel(){
+
 		newTechnicianPanel.add(submitNewTechnicianBtn);
 		newTechnicianPanel.add(clearTechnicianBtn);
 		newTechnicianPanel.add(newTechnicianBackBtn);
@@ -183,22 +168,23 @@ public class NewTechnicianTab extends AbstractTab{
 		newTechnicianPanel.add(lastNameLabel);
 		newTechnicianPanel.add(emailLabel);
 		newTechnicianPanel.add(telNumLabel);
+		newTechnicianPanel.add(requiredTechLbl);
 
 		newTechnicianPanel.add(technicianFirstNametxtField);
 		newTechnicianPanel.add(technicianMiddleNametxtField);
 		newTechnicianPanel.add(technicianLastNametxtField);
 		newTechnicianPanel.add(technicianTelNumtxtField);
 		newTechnicianPanel.add(technicianEmailtxtField);
-		
+
 		newTechnicianPanel.add(newTechnicianBackgroundLabel);
 	}
-	
+
 	//'Submit' button action
 	private void addSubmitButtonAction(final JPanel parent,final MySQLConnect db){
 		submitNewTechnicianBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
+
 					//Email address validation
 					if(!(isValidEmailAddress(technicianEmailtxtField.getText())) && !technicianEmailtxtField.getText().equals("")){
 						JOptionPane.showMessageDialog(parent,
@@ -206,7 +192,7 @@ public class NewTechnicianTab extends AbstractTab{
 								"Error",
 								JOptionPane.INFORMATION_MESSAGE);
 					}
-					
+
 					db.addTechnician(technicianFirstNametxtField.getText(), technicianMiddleNametxtField.getText(),
 							technicianLastNametxtField.getText(), technicianTelNumtxtField.getText(), technicianEmailtxtField.getText());
 
@@ -224,7 +210,7 @@ public class NewTechnicianTab extends AbstractTab{
 			}
 		});
 	}
-	
+
 	//'Clear' Button action
 	private void addClearButtonAction(){
 		clearTechnicianBtn.addActionListener(new ActionListener() {
@@ -237,7 +223,7 @@ public class NewTechnicianTab extends AbstractTab{
 			}
 		});
 	}
-	
+
 	//'Back' Button action
 	void addBackButtonAction(final JPanel parentPanel){
 		newTechnicianBackBtn.addActionListener(new ActionListener() {
@@ -247,17 +233,17 @@ public class NewTechnicianTab extends AbstractTab{
 			}
 		});
 	}
-	
+
 	//Email validator
 	public static boolean isValidEmailAddress(String email) {
-		   boolean result = true;
-		   try {
-		      InternetAddress emailAddr = new InternetAddress(email);
-		      emailAddr.validate();
-		   } catch (AddressException ex) {
-		      result = false;
-		   }
-		   return result;
+		boolean result = true;
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+			emailAddr.validate();
+		} catch (AddressException ex) {
+			result = false;
 		}
+		return result;
+	}
 
 }
