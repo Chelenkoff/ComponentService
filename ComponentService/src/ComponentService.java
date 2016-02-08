@@ -41,7 +41,6 @@ public class ComponentService {
 	private  JPanel menuPanel;
 	private JPanel newOrderPanel;
 	private JPanel checkOrderStatusPanel;
-	private JPanel newClientPanel;
 	private JPanel myTasksPanel;
 	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
@@ -66,7 +65,6 @@ public class ComponentService {
 	private JLabel repairDetailsBackgroundLabel;
 	private JLabel newOrderBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
-	private JLabel newClientBackgroundLabel;
 	private JLabel databaseConnectedLabel;
 	private JLabel MyTasksOrderIdLbl;
 	
@@ -113,7 +111,6 @@ public class ComponentService {
 	private JButton repairDetailsBtn;
 	private JButton newOrderBackBtn;
 	private JButton checkStatusBackBtn;
-	private JButton newClientBackBtn;
 	private JButton myTasksBackBtn;
 	private JButton repairComponentBackBtn;
 	private JButton repairDetailsBackBtn;
@@ -121,7 +118,6 @@ public class ComponentService {
 	
 	private JTextField clientFirstNametxtField;
 	private JTextField clientLastNametxtField;
-	private JLabel clientTelLabel;
 	private JTextField clientTelTextField;
 	
 	private JTextArea myTasksDiagnosticTxtField;
@@ -129,7 +125,6 @@ public class ComponentService {
 	
 	private static MySQLConnect databaseConnection;
 	private static ComponentService window;
-	private JLabel requiredClientLbl;
 	private JLabel newOrderlbl;
 	private JLabel componentTypelbl;
 	private JTextField componentTypeTxtField;
@@ -225,11 +220,6 @@ public class ComponentService {
 		newOrderPanel.setLayout(null);
 		newOrderPanel.setVisible(false);
 				
-		newClientPanel = new JPanel();
-		newClientPanel.setBounds(0, 0, 614, 344);
-		frame.getContentPane().add(newClientPanel);
-		newClientPanel.setLayout(null);
-		newClientPanel.setVisible(false);
 		
 		menuPanel = new JPanel();
 		menuPanel.setBounds(0, 0, 614, 344);
@@ -370,23 +360,6 @@ public class ComponentService {
 	checkStatusBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
 	checkOrderStatusPanel.add(checkStatusBackBtn);
 	
-		//New CLient Back Button
-	newClientBackBtn = new JButton("");
-	newClientBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			newClientPanel.setVisible(false);
-			officePanel.setVisible(true);
-			
-			
-		}
-	});
-	newClientBackBtn.setBounds(0, 294, 50, 50);
-	newClientBackBtn.setContentAreaFilled(false);
-	newClientBackBtn.setBorderPainted(false);
-	newClientBackBtn.setRolloverEnabled(true);
-	newClientBackBtn.setIcon(new ImageIcon(backBtn));
-	newClientBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	newClientPanel.add(newClientBackBtn);
 			
 		//My Tasks Back Button
 	myTasksBackBtn = new JButton("");
@@ -552,8 +525,8 @@ public class ComponentService {
 		newClientBtn = new JButton("");
 		newClientBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				newClientPanel.setVisible(true);
-				officePanel.setVisible(false);
+				NewClientTab newCLientTab = new NewClientTab(officePanel, databaseConnection);
+				frame.getContentPane().add(newCLientTab.getNewClientPanel());
 			}
 		});
 		newClientBtn.setBounds(0, 110, 190, 40);
@@ -864,58 +837,9 @@ public class ComponentService {
 		checkStatusBackgroundLabel.setBounds(0, 0, 614, 344);
 		checkOrderStatusPanel.add(checkStatusBackgroundLabel);
 		checkStatusBackgroundLabel.setIcon(new ImageIcon(officeBackground));
-			//New Client Components
-		JLabel addNewClientLabel = new JLabel("Add New Client");
-		addNewClientLabel.setForeground(SystemColor.textHighlight);
-		addNewClientLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		addNewClientLabel.setBounds(10, 11, 300, 50);
-		newClientPanel.add(addNewClientLabel);
+
 		
-		JLabel clientFirstNamelabel = new JLabel("First name:");
-		clientFirstNamelabel.setForeground(Color.RED);
-		clientFirstNamelabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		clientFirstNamelabel.setBounds(133, 72, 137, 50);
-		newClientPanel.add(clientFirstNamelabel);
-		
-		clientFirstNametxtField = new JTextField();
-		clientFirstNametxtField.setBackground(SystemColor.textHighlight);
-		clientFirstNametxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		clientFirstNametxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		clientFirstNametxtField.setForeground(Color.WHITE);
-		clientFirstNametxtField.setBounds(280, 76, 153, 46);
-		newClientPanel.add(clientFirstNametxtField);
-		clientFirstNametxtField.setColumns(10);
-		
-		JLabel clientLastNameLabel = new JLabel("Last name:");
-		clientLastNameLabel.setForeground(Color.RED);
-		clientLastNameLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		clientLastNameLabel.setBounds(133, 133, 137, 50);
-		newClientPanel.add(clientLastNameLabel);
-		
-		clientLastNametxtField = new JTextField();
-		clientLastNametxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		clientLastNametxtField.setForeground(Color.WHITE);
-		clientLastNametxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		clientLastNametxtField.setColumns(10);
-		clientLastNametxtField.setBackground(SystemColor.textHighlight);
-		clientLastNametxtField.setBounds(280, 137, 153, 46);
-		newClientPanel.add(clientLastNametxtField);
-		
-		clientTelLabel = new JLabel("Tel:");
-		clientTelLabel.setForeground(Color.RED);
-		clientTelLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		clientTelLabel.setBounds(161, 219, 41, 50);
-		newClientPanel.add(clientTelLabel);
-		
-		clientTelTextField = new JTextField();
-		clientTelTextField.setHorizontalAlignment(SwingConstants.CENTER);
-		clientTelTextField.setForeground(Color.WHITE);
-		clientTelTextField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		clientTelTextField.setColumns(10);
-		clientTelTextField.setBackground(SystemColor.textHighlight);
-		clientTelTextField.setBounds(212, 219, 186, 46);
-		newClientPanel.add(clientTelTextField);
-		
+
 		JButton submitNewClientBtn = new JButton("Submit");
 		submitNewClientBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -935,16 +859,6 @@ public class ComponentService {
 			}
 		});
 		
-		requiredClientLbl = new JLabel("(*)required");
-		requiredClientLbl.setForeground(Color.RED);
-		requiredClientLbl.setFont(new Font("Tahoma", Font.ITALIC, 15));
-		requiredClientLbl.setBounds(522, 318, 81, 26);
-		newClientPanel.add(requiredClientLbl);
-		submitNewClientBtn.setFont(new Font("Tahoma", Font.BOLD, 16));
-		submitNewClientBtn.setForeground(Color.WHITE);
-		submitNewClientBtn.setBackground(SystemColor.textHighlight);
-		submitNewClientBtn.setBounds(484, 123, 91, 75);
-		newClientPanel.add(submitNewClientBtn);
 		
 			//Clear Client Button
 		JButton clearClientBtn = new JButton("Clear");
@@ -959,13 +873,9 @@ public class ComponentService {
 		clearClientBtn.setBackground(Color.RED);
 		clearClientBtn.setForeground(Color.WHITE);
 		clearClientBtn.setBounds(484, 89, 91, 23);
-		newClientPanel.add(clearClientBtn);
+//		newClientPanel.add(clearClientBtn);
 		
-			//NewClient Background
-		newClientBackgroundLabel = new JLabel("");
-		newClientBackgroundLabel.setBounds(0, 0, 614, 344);
-		newClientPanel.add(newClientBackgroundLabel);
-		newClientBackgroundLabel.setIcon(new ImageIcon(officeBackground));
+
 		
 		//Service Background IMG
 		serviceBackground = new ImageIcon(this.getClass().getResource("/service_background.png")).getImage();
@@ -1343,7 +1253,6 @@ public class ComponentService {
 		repairCompShowBtn.setBounds(287, 231, 41, 26);
 		repairComponentPanel.add(repairCompShowBtn);
 		
-
 		
 		JLabel toRepairLbl = new JLabel("Component to repair");
 		toRepairLbl.setForeground(Color.RED);
@@ -1395,10 +1304,7 @@ public class ComponentService {
     					e1.printStackTrace();
     				}
                 	
-                }
-
-
-				
+                }	
 
 			}
 		});
@@ -1421,7 +1327,6 @@ public class ComponentService {
 		orderPriceLbl.setBounds(216, 315, 86, 25);
 		repairComponentPanel.add(orderPriceLbl);
 		
-		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(187, 268, 263, 42);
 		repairComponentPanel.add(scrollPane);
@@ -1433,12 +1338,6 @@ public class ComponentService {
 		repairCompDiagnosticTextArea.setBackground(SystemColor.textHighlight);
 		repairCompDiagnosticTextArea.setBounds(425, 139, 179, 125);
 		scrollPane.setViewportView(repairCompDiagnosticTextArea);
-
-		
-
-
-		
-		
 
 		
 		repairCompPriceLbl = new JLabel("New label");

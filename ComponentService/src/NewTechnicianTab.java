@@ -1,6 +1,5 @@
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,7 @@ import java.sql.SQLException;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -34,8 +33,6 @@ public class NewTechnicianTab extends AbstractTab{
 	private JLabel telNumLabel;
 	private JLabel requiredTechLbl;
 
-	private ImageIcon newTechnicianBackground;
-
 	private JTextField technicianFirstNametxtField;
 	private JTextField technicianMiddleNametxtField;
 	private JTextField technicianLastNametxtField;
@@ -51,6 +48,7 @@ public class NewTechnicianTab extends AbstractTab{
 	}
 
 	//UI initialization 
+	@Override
 	void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
 		//Creating 'New Technician' panel
 		newTechnicianPanel = new JPanel();
@@ -106,7 +104,6 @@ public class NewTechnicianTab extends AbstractTab{
 		requiredTechLbl = new JLabel("(*)required");
 		designLabel(requiredTechLbl, Color.RED,new Font("Tahoma", Font.ITALIC, 15), 522, 318, 81, 26);
 		
-
 		//Textfields
 
 		//'First Name' txtField
@@ -154,6 +151,7 @@ public class NewTechnicianTab extends AbstractTab{
 	}
 
 	//Adding components to main panel 
+	@Override
 	void addComponentsToPanel(){
 
 		newTechnicianPanel.add(submitNewTechnicianBtn);
@@ -223,6 +221,7 @@ public class NewTechnicianTab extends AbstractTab{
 	}
 
 	//'Back' Button action
+	@Override
 	void addBackButtonAction(final JPanel parentPanel){
 		newTechnicianBackBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
