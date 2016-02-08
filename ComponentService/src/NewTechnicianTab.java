@@ -34,7 +34,7 @@ public class NewTechnicianTab extends AbstractTab{
 	private JLabel telNumLabel;
 	private JLabel requiredTechLbl;
 
-	private Image newTechnicianBackground;
+	private ImageIcon newTechnicianBackground;
 
 	private JTextField technicianFirstNametxtField;
 	private JTextField technicianMiddleNametxtField;
@@ -54,7 +54,7 @@ public class NewTechnicianTab extends AbstractTab{
 	void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
 		//Creating 'New Technician' panel
 		newTechnicianPanel = new JPanel();
-		designPanel(newTechnicianPanel, 0, 0, 614, 344);
+		designPanel(newTechnicianPanel,0, 0, 614, 344);
 
 		//'Submit' Button
 		submitNewTechnicianBtn = new JButton("Submit");
@@ -140,10 +140,9 @@ public class NewTechnicianTab extends AbstractTab{
 				Color.WHITE, 403, 273, 200, 46, 10);
 
 		//NewTechnician Background
-		newTechnicianBackground = new ImageIcon(this.getClass().getResource("/office_backgrond.png")).getImage();
 		newTechnicianBackgroundLabel = new JLabel("");
-		newTechnicianBackgroundLabel.setBounds(0, 0, 614, 344);
-		newTechnicianBackgroundLabel.setIcon(new ImageIcon(newTechnicianBackground));
+		designPanelBackground(newTechnicianBackgroundLabel,this.getClass().getResource("/office_backgrond.png"),
+				0,0,614,344);
 
 		//Adding components to 'New Technician' panel
 		addComponentsToPanel();
@@ -153,7 +152,6 @@ public class NewTechnicianTab extends AbstractTab{
 	public JPanel getNewTechnicianPanel(){
 		return newTechnicianPanel;
 	}
-
 
 	//Adding components to main panel 
 	void addComponentsToPanel(){

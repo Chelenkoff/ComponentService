@@ -61,4 +61,11 @@ public abstract class AbstractTab {
 		panel.setLayout(null);
 		panel.setVisible(true);
 	}
+	
+	//Panel background settings
+	void designPanelBackground(JLabel panelBackgroundLabel,URL backgroundImgURL, int x, int y, int width, int height){
+		ImageIcon newTechnicianBackground = new ImageIcon(backgroundImgURL);
+		panelBackgroundLabel.setBounds(x, y, width, height);
+		panelBackgroundLabel.setIcon(newTechnicianBackground);
+	}
 }
