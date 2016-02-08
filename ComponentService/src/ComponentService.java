@@ -116,10 +116,6 @@ public class ComponentService {
 	private JButton repairDetailsBackBtn;
 	private JButton repairCompSubmitBtn;
 	
-	private JTextField clientFirstNametxtField;
-	private JTextField clientLastNametxtField;
-	private JTextField clientTelTextField;
-	
 	private JTextArea myTasksDiagnosticTxtField;
 	private JTextArea repairCompDiagnosticTextArea;
 	
@@ -388,7 +384,6 @@ public class ComponentService {
 			repairComponentPanel.setVisible(false);
 			servicePanel.setVisible(true);
 			
-			
 		}
 	});
 	repairComponentBackBtn.setBounds(0, 294, 50, 50);
@@ -456,7 +451,6 @@ public class ComponentService {
 		backgroundLabel.setIcon(new ImageIcon(backgroundIcon));
 		menuPanel.add(backgroundLabel);
 
-		
 		
 		//New Order BTN
 		newOrderBtn = new JButton("");
@@ -838,43 +832,6 @@ public class ComponentService {
 		checkOrderStatusPanel.add(checkStatusBackgroundLabel);
 		checkStatusBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 
-		
-
-		JButton submitNewClientBtn = new JButton("Submit");
-		submitNewClientBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					databaseConnection.addClient(clientFirstNametxtField.getText(),clientLastNametxtField.getText(),
-							clientTelTextField.getText());
-					
-					JOptionPane.showMessageDialog(frame,
-						    databaseConnection.clientResult(),
-						    "Warning",
-						    JOptionPane.INFORMATION_MESSAGE);
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		
-		
-			//Clear Client Button
-		JButton clearClientBtn = new JButton("Clear");
-		clearClientBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				clientFirstNametxtField.setText("");
-				clientLastNametxtField.setText("");
-				clientTelTextField.setText("");
-			}
-		});
-		clearClientBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		clearClientBtn.setBackground(Color.RED);
-		clearClientBtn.setForeground(Color.WHITE);
-		clearClientBtn.setBounds(484, 89, 91, 23);
-//		newClientPanel.add(clearClientBtn);
-		
 
 		
 		//Service Background IMG

@@ -3,9 +3,11 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -104,7 +106,7 @@ public class NewClientTab extends AbstractTab{
 		designTextfield(clientTelNumtxtField, SystemColor.textHighlight,
 				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
 				Color.WHITE, 212, 219, 186, 46, 10);
-		
+
 		//NewClient panel Background
 		newClientBackgroundLabel = new JLabel("");
 		designPanelBackground(newClientBackgroundLabel,this.getClass().getResource("/office_backgrond.png"),
@@ -119,39 +121,65 @@ public class NewClientTab extends AbstractTab{
 	public JPanel getNewClientPanel(){
 		return newClientPanel;
 	}
-	
+
 	//Adding components to main panel 
-		@Override
-		void addComponentsToPanel() {
-			newClientPanel.add(submitNewClientBtn);
-			newClientPanel.add(clearClientBtn);
-			newClientPanel.add(newClientBackBtn);
+	@Override
+	void addComponentsToPanel() {
+		newClientPanel.add(submitNewClientBtn);
+		newClientPanel.add(clearClientBtn);
+		newClientPanel.add(newClientBackBtn);
 
-			newClientPanel.add(addNewClientLabel);
-			newClientPanel.add(firstNameLabel);
-			newClientPanel.add(lastNameLabel);
-			newClientPanel.add(telLabel);
-			newClientPanel.add(requiredLabel);
+		newClientPanel.add(addNewClientLabel);
+		newClientPanel.add(firstNameLabel);
+		newClientPanel.add(lastNameLabel);
+		newClientPanel.add(telLabel);
+		newClientPanel.add(requiredLabel);
 
-			newClientPanel.add(clientFirstNametxtField);
-			newClientPanel.add(clientLastNametxtField);
-			newClientPanel.add(clientTelNumtxtField);
-			
-			newClientPanel.add(newClientBackgroundLabel);
+		newClientPanel.add(clientFirstNametxtField);
+		newClientPanel.add(clientLastNametxtField);
+		newClientPanel.add(clientTelNumtxtField);
 
-		}
+		newClientPanel.add(newClientBackgroundLabel);
 
+	}
+
+	//'Clear' Button action
 	private void addClearButtonAction() {
-		// TODO Auto-generated method stub
+		clearClientBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clientFirstNametxtField.setText("");
+				clientLastNametxtField.setText("");
+				clientTelNumtxtField.setText("");
+			}
+		});
 
 	}
 
-	private void addSubmitButtonAction(JPanel parent, MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
+	//'Submit' button action
+	private void addSubmitButtonAction(final JPanel parent, final MySQLConnect databaseConnection) {
+		submitNewClientBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					databaseConnection.addClient(clientFirstNametxtField.getText(),clientLastNametxtField.getText(),
+							clientTelNumtxtField.getText());
+
+					JOptionPane.showMessageDialog(parent,
+							databaseConnection.clientResult(),
+							"Warning",
+							JOptionPane.INFORMATION_MESSAGE);
+
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(parent,
+							"Not connected to a database",
+							"Error",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 
 	}
 
-	
+
 
 	//'Back' Button action
 	@Override
