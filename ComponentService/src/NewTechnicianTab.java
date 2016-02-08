@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class NewTechnicianTab {
+public class NewTechnicianTab extends AbstractTab{
 
 	private JPanel newTechnicianPanel;
 
@@ -52,8 +52,8 @@ public class NewTechnicianTab {
 
 	}
 
-	//UI initialization method
-	private void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
+	//UI initialization 
+	 void initializeUI(final JPanel parent, final MySQLConnect databaseConnection){
 		//Creating 'New Technician' panel
 		newTechnicianPanel = new JPanel();
 		newTechnicianPanel.setBounds(0, 0, 614, 344);
@@ -90,12 +90,7 @@ public class NewTechnicianTab {
 		newTechnicianBackBtn.setRolloverEnabled(true);
 		newTechnicianBackBtn.setIcon(new ImageIcon(backBtn));
 		newTechnicianBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-		newTechnicianBackBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				parent.setVisible(true);
-				newTechnicianPanel.setVisible(false);
-			}
-		});
+		addBackButtonAction(parent);
 
 		//Labels
 		//'Hire Technician' main label
@@ -174,26 +169,9 @@ public class NewTechnicianTab {
 		return newTechnicianPanel;
 	}
 
-	//Label design method
-	private void designLabel(JLabel label, Color foregroundColor, Font font, int x , int y, int width, int height){
-		label.setForeground(foregroundColor);
-		label.setFont(font);
-		label.setBounds(x, y, width, height);
-	}
 
-	//Textfield design method
-	private void designTextfield(JTextField txtField, Color backgroundColor, int horizontalAlign, Font font, Color foregroundColor,
-			int x, int y, int width, int height, int numOfCols){
-		txtField.setBackground(backgroundColor);
-		txtField.setHorizontalAlignment(horizontalAlign);
-		txtField.setFont(font);
-		txtField.setForeground(foregroundColor);
-		txtField.setBounds(x, y, width, height);
-		txtField.setColumns(numOfCols);
-	}
-
-	//Adding components to main panel method
-	private void addComponentsToPanel(){
+	//Adding components to main panel 
+	 void addComponentsToPanel(){
 		
 		newTechnicianPanel.add(submitNewTechnicianBtn);
 		newTechnicianPanel.add(clearTechnicianBtn);
@@ -260,6 +238,17 @@ public class NewTechnicianTab {
 		});
 	}
 	
+	//'Back' Button action
+	void addBackButtonAction(final JPanel parentPanel){
+		newTechnicianBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.setVisible(true);
+				newTechnicianPanel.setVisible(false);
+			}
+		});
+	}
+	
+	//Email validator
 	public static boolean isValidEmailAddress(String email) {
 		   boolean result = true;
 		   try {
