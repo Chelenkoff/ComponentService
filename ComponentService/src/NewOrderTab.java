@@ -1,12 +1,19 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 public class NewOrderTab extends AbstractTab{
 
@@ -17,6 +24,7 @@ public class NewOrderTab extends AbstractTab{
 	private JButton clearOrderBtn;
 	private JButton pickDateBtn;
 
+	private JLabel newOrderBackgroundLabel;
 	private JLabel newOrderLabel;
 	private JLabel componentTypeLabel;
 	private JLabel componentModelLabel;
@@ -25,10 +33,10 @@ public class NewOrderTab extends AbstractTab{
 	private JLabel entryDateLabel;
 	private JLabel requiredLabel;
 
-	private ObservingTextField entryDatetxtField;
-
 	private JTextField componentTypeTxtField;
 	private JTextField componentModelTxtField;
+
+	private ObservingTextField entryDateObsTxtField;
 
 	private JComboBox<String> clientsComboBox;
 	private JComboBox<String> techniciansComboBox;
@@ -37,7 +45,8 @@ public class NewOrderTab extends AbstractTab{
 	public NewOrderTab(final JPanel parent, final MySQLConnect databaseConnection){
 
 		parent.setVisible(false); //Hiding existing panel before initialization of the new one
-		initializeUI(parent, databaseConnection);		
+		initializeUI(parent, databaseConnection);	
+
 
 	}
 
@@ -63,8 +72,8 @@ public class NewOrderTab extends AbstractTab{
 		//'Pick date' Button
 		pickDateBtn = new JButton("Pick ...");
 		designStandartButton(pickDateBtn, new Font("Tahoma", Font.PLAIN, 16),
-				SystemColor.textHighlight, Color.WHITE, 394, 301, 73, 23);
-		addPickButtonAction();
+				SystemColor.textHighlight, Color.WHITE, 394, 301, 85, 23);
+		addPickDateButtonAction();
 
 		//'Back' Button
 		//BackButton design settings
@@ -102,33 +111,144 @@ public class NewOrderTab extends AbstractTab{
 		requiredLabel = new JLabel("(*)required");
 		designLabel(requiredLabel, Color.RED,new Font("Tahoma", Font.ITALIC, 15), 522, 318, 81, 26);
 
+		//Textfields
+		//'Component type' txtField
+		componentTypeTxtField = new JTextField();
+		designTextfield(componentTypeTxtField, SystemColor.textHighlight,
+				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 15),
+				Color.WHITE, 168, 84, 126, 27, 10);
+
+		//'Component model' txtField
+		componentModelTxtField = new JTextField();
+		designTextfield(componentModelTxtField, SystemColor.textHighlight,
+				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 15),
+				Color.WHITE, 478, 84, 126, 27, 10);
+
+		//'Entry date' observing txtField
+		entryDateObsTxtField = new ObservingTextField();
+		designTextfield(entryDateObsTxtField, SystemColor.textHighlight,
+				SwingConstants.CENTER, new Font("Tahoma", Font.PLAIN, 17),
+				Color.WHITE, 258, 300, 126, 27, 10);
+		entryDateObsTxtField.setEditable(false);
+		setDefaultDate();
+
+		//Combo Boxes
+		//Clients combo box
+		clientsComboBox = new JComboBox<String>();
+		clientsComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		clientsComboBox.setForeground(Color.WHITE);
+		clientsComboBox.setBackground(SystemColor.textHighlight);
+		clientsComboBox.setBounds(122, 161, 375, 33);
+
+		//Technicians combo box
+		techniciansComboBox = new JComboBox<String>();
+		techniciansComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		techniciansComboBox.setForeground(Color.WHITE);
+		techniciansComboBox.setBackground(SystemColor.textHighlight);
+		techniciansComboBox.setBounds(122, 238, 375, 33);
+
+		//NewOrder panel Background
+		newOrderBackgroundLabel = new JLabel("");
+		designPanelBackground(newOrderBackgroundLabel,this.getClass().getResource("/office_backgrond.png"),
+				0,0,614,344);
+
+		//Adding components to 'New Technician' panel
+		addComponentsToPanel();
+
 	}
 
-	private void addPickButtonAction() {
-		// TODO Auto-generated method stub
-
+	//Panel Getter
+	public JPanel getNewOrderPanel(){
+		return newOrderPanel;
 	}
 
+	//Adding components to main panel 
+	@Override
+	void addComponentsToPanel() {
+
+		newOrderPanel.add(submitNewOrderBtn);
+		newOrderPanel.add(clearOrderBtn);
+		newOrderPanel.add(pickDateBtn);
+		newOrderPanel.add(newOrderBackBtn);
+
+		newOrderPanel.add(newOrderLabel);
+		newOrderPanel.add(componentTypeLabel);
+		newOrderPanel.add(componentModelLabel);
+		newOrderPanel.add(chooseClientLabel);
+		newOrderPanel.add(chooseTechnicianLabel);
+		newOrderPanel.add(entryDateLabel);
+		newOrderPanel.add(requiredLabel);
+
+		newOrderPanel.add(componentTypeTxtField);
+		newOrderPanel.add(componentModelTxtField);
+
+		newOrderPanel.add(entryDateObsTxtField);
+
+		newOrderPanel.add(clientsComboBox);
+		newOrderPanel.add(techniciansComboBox);
+
+		newOrderPanel.add(newOrderBackgroundLabel);
+	}
+
+	//'Clear' Button action
 	private void addClearButtonAction() {
-		// TODO Auto-generated method stub
+		clearOrderBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				componentTypeTxtField.setText("");
+				componentModelTxtField.setText("");
+			}
+		});
 
 	}
+
+	private void addPickDateButtonAction() {
+		pickDateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String lang = null;
+				final Locale locale = getLocale(lang);
+				DatePicker dp = new DatePicker(entryDateObsTxtField,locale);
+				Date selectedDate = dp.parseDate(entryDateObsTxtField.getText());
+				dp.setSelectedDate(selectedDate);
+				dp.start(entryDateObsTxtField);
+			}
+		});
+
+	}
+
+
 
 	private void addSubmitButtonAction(JPanel parent, MySQLConnect databaseConnection) {
 		// TODO Auto-generated method stub
 
 	}
 
+
+	//'Back' Button action
 	@Override
-	void addComponentsToPanel() {
-		// TODO Auto-generated method stub
+	void addBackButtonAction(final JPanel parentPanel) {
+		newOrderBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				parentPanel.setVisible(true);
+				newOrderPanel.setVisible(false);
+
+			}
+		});
 
 	}
-
-	@Override
-	void addBackButtonAction(JPanel parentPanel) {
-		// TODO Auto-generated method stub
-
+		
+	//Setting default date at entryDateObsTxtField
+	void setDefaultDate(){
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //2014-08-06
+		Date date = new Date();
+		entryDateObsTxtField.setText(dateFormat.format(date));
+	}
+	
+	//Local timezone detection
+	private Locale getLocale(String loc){
+		if(loc != null && loc.length() > 0){
+			return new Locale(loc);
+		}
+		else return Locale.US;
 	}
 
 }

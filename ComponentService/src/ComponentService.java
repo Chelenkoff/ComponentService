@@ -320,23 +320,6 @@ public class ComponentService {
 		backBtn = new ImageIcon(this.getClass().getResource("/back_blackwhite.png")).getImage();
 		backRolloverBtn = new ImageIcon(this.getClass().getResource("/back_colored.png")).getImage();
 		
-		//NewOrder Back Button
-	newOrderBackBtn = new JButton("");
-	newOrderBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			newOrderPanel.setVisible(false);
-			officePanel.setVisible(true);
-			
-			
-		}
-	});
-	newOrderBackBtn.setBounds(0, 294, 50, 50);
-	newOrderBackBtn.setContentAreaFilled(false);
-	newOrderBackBtn.setBorderPainted(false);
-	newOrderBackBtn.setRolloverEnabled(true);
-	newOrderBackBtn.setIcon(new ImageIcon(backBtn));
-	newOrderBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	newOrderPanel.add(newOrderBackBtn);
 	
 		//CheckStatus Back Button
 	checkStatusBackBtn = new JButton("");
@@ -456,12 +439,10 @@ public class ComponentService {
 		newOrderBtn = new JButton("");
 		newOrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				newOrderPanel.setVisible(true);
-				officePanel.setVisible(false);
 				
-				DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //2014-08-06
-				Date date = new Date();
-				newOrderEntryDatetxtField.setText(dateFormat.format(date));
+				NewOrderTab newOrderTab = new NewOrderTab(officePanel, databaseConnection);
+				frame.getContentPane().add(newOrderTab.getNewOrderPanel());
+				
 				
 				try {
 					databaseConnection.allClients();
@@ -677,25 +658,25 @@ public class ComponentService {
 		componentTypeTxtField.setColumns(10);
 		componentTypeTxtField.setBackground(SystemColor.textHighlight);
 		componentTypeTxtField.setBounds(168, 84, 126, 27);
-		newOrderPanel.add(componentTypeTxtField);
+//		newOrderPanel.add(componentTypeTxtField);
 		
 		componentTypelbl = new JLabel("Component type:");
 		componentTypelbl.setForeground(Color.RED);
 		componentTypelbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		componentTypelbl.setBounds(10, 72, 156, 50);
-		newOrderPanel.add(componentTypelbl);
+//		newOrderPanel.add(componentTypelbl);
 		
 		newOrderlbl = new JLabel("New Order");
 		newOrderlbl.setForeground(SystemColor.textHighlight);
 		newOrderlbl.setFont(new Font("Tahoma", Font.BOLD, 30));
 		newOrderlbl.setBounds(10, 11, 300, 50);
-		newOrderPanel.add(newOrderlbl);
+//		newOrderPanel.add(newOrderlbl);
 		
 		JLabel componentModellbl = new JLabel("Component model:");
 		componentModellbl.setForeground(Color.RED);
 		componentModellbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		componentModellbl.setBounds(304, 72, 163, 50);
-		newOrderPanel.add(componentModellbl);
+//		newOrderPanel.add(componentModellbl);
 		
 		
 		componentModelTxtField = new JTextField();
@@ -705,31 +686,31 @@ public class ComponentService {
 		componentModelTxtField.setColumns(10);
 		componentModelTxtField.setBackground(SystemColor.textHighlight);
 		componentModelTxtField.setBounds(478, 84, 126, 27);
-		newOrderPanel.add(componentModelTxtField);
+//		newOrderPanel.add(componentModelTxtField);
 		
 		JLabel chooseClientLbl = new JLabel("Choose client");
 		chooseClientLbl.setForeground(Color.RED);
 		chooseClientLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		chooseClientLbl.setBounds(250, 122, 126, 40);
-		newOrderPanel.add(chooseClientLbl);
+//		newOrderPanel.add(chooseClientLbl);
 		
 		JLabel chooseTechnicLbl = new JLabel("Choose technician");
 		chooseTechnicLbl.setForeground(Color.RED);
 		chooseTechnicLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		chooseTechnicLbl.setBounds(238, 197, 156, 40);
-		newOrderPanel.add(chooseTechnicLbl);
+//		newOrderPanel.add(chooseTechnicLbl);
 		
 		JLabel entryDateLbl = new JLabel("Entry date");
 		entryDateLbl.setForeground(Color.RED);
 		entryDateLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		entryDateLbl.setBounds(161, 293, 95, 40);
-		newOrderPanel.add(entryDateLbl);
+//		newOrderPanel.add(entryDateLbl);
 		
 		label = new JLabel("(*)required");
 		label.setForeground(Color.RED);
 		label.setFont(new Font("Tahoma", Font.ITALIC, 15));
 		label.setBounds(522, 318, 81, 26);
-		newOrderPanel.add(label);
+//		newOrderPanel.add(label);
 		
 			//New Order clients COMBOBOX
 		clientComboBox = new JComboBox<String>();
@@ -737,14 +718,14 @@ public class ComponentService {
 		clientComboBox.setForeground(Color.WHITE);
 		clientComboBox.setBackground(SystemColor.textHighlight);
 		clientComboBox.setBounds(122, 161, 375, 33);
-		newOrderPanel.add(clientComboBox);
+//		newOrderPanel.add(clientComboBox);
 			//New Order technicians COMBOBOX
 		techniciansComboBox = new JComboBox<String>();
 		techniciansComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		techniciansComboBox.setForeground(Color.WHITE);
 		techniciansComboBox.setBackground(SystemColor.textHighlight);
 		techniciansComboBox.setBounds(122, 238, 375, 33);
-		newOrderPanel.add(techniciansComboBox);
+//		newOrderPanel.add(techniciansComboBox);
 		
 		newOrderEntryDatetxtField = new ObservingTextField();
 		newOrderEntryDatetxtField.setEditable(false);
@@ -755,7 +736,7 @@ public class ComponentService {
 		newOrderEntryDatetxtField.setColumns(10);
 		newOrderEntryDatetxtField.setBackground(SystemColor.textHighlight);
 		newOrderEntryDatetxtField.setBounds(258, 300, 126, 27);
-		newOrderPanel.add(newOrderEntryDatetxtField);
+//		newOrderPanel.add(newOrderEntryDatetxtField);
 		
 			//New Order Pick Entry Date Btn
 		JButton newOrderPickDateBtn = new JButton("Pick...");
@@ -772,7 +753,7 @@ public class ComponentService {
 		newOrderPickDateBtn.setForeground(Color.WHITE);
 		newOrderPickDateBtn.setBackground(SystemColor.textHighlight);
 		newOrderPickDateBtn.setBounds(394, 301, 73, 23);
-		newOrderPanel.add(newOrderPickDateBtn);
+//		newOrderPanel.add(newOrderPickDateBtn);
 		
 		newOrderSubmitBtn = new JButton("Submit");
 		newOrderSubmitBtn.addActionListener(new ActionListener() {
@@ -805,26 +786,15 @@ public class ComponentService {
 		newOrderSubmitBtn.setForeground(Color.WHITE);
 		newOrderSubmitBtn.setBackground(SystemColor.textHighlight);
 		newOrderSubmitBtn.setBounds(507, 231, 97, 70);
-		newOrderPanel.add(newOrderSubmitBtn);
+//		newOrderPanel.add(newOrderSubmitBtn);
 		
-		newOrderClearBtn = new JButton("Clear");
-		newOrderClearBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				componentTypeTxtField.setText("");
-				componentModelTxtField.setText("");
-			}
-		});
-		newOrderClearBtn.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		newOrderClearBtn.setForeground(Color.WHITE);
-		newOrderClearBtn.setBackground(Color.RED);
-		newOrderClearBtn.setBounds(507, 197, 97, 23);
-		newOrderPanel.add(newOrderClearBtn);
+
 		
 		
 			//New Order Background
 		newOrderBackgroundLabel = new JLabel("");
 		newOrderBackgroundLabel.setBounds(0, 0, 614, 344);
-		newOrderPanel.add(newOrderBackgroundLabel);
+//		newOrderPanel.add(newOrderBackgroundLabel);
 		newOrderBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 			//CheckStatus Background
 		checkStatusBackgroundLabel = new JLabel("");
