@@ -65,10 +65,11 @@ public class NewOrderTab extends AbstractTab{
 	//UI initialization 
 	@Override
 	void initializeUI(JPanel parent, MySQLConnect databaseConnection) {
-		//Creating 'Add New Client' panel
+		//Creating 'New Order' panel
 		newOrderPanel = new JPanel();
 		designPanel(newOrderPanel,0, 0, 614, 344);
 
+		//Buttons
 		//'Submit' Button
 		submitNewOrderBtn = new JButton("Submit");
 		designStandartButton(submitNewOrderBtn, new Font("Tahoma", Font.BOLD, 16),
