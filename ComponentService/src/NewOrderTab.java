@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Locale;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -45,6 +47,16 @@ public class NewOrderTab extends AbstractTab{
 	public NewOrderTab(final JPanel parent, final MySQLConnect databaseConnection){
 
 		parent.setVisible(false); //Hiding existing panel before initialization of the new one
+
+		//Connecting to database
+		try {
+			databaseConnection.allClients();
+			databaseConnection.allTechnicians();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		initializeUI(parent, databaseConnection);	
 
 
@@ -147,6 +159,9 @@ public class NewOrderTab extends AbstractTab{
 		techniciansComboBox.setBackground(SystemColor.textHighlight);
 		techniciansComboBox.setBounds(122, 238, 375, 33);
 
+		//Comboboxes initialization
+		initializeComboBoxes(databaseConnection);
+
 		//NewOrder panel Background
 		newOrderBackgroundLabel = new JLabel("");
 		designPanelBackground(newOrderBackgroundLabel,this.getClass().getResource("/office_backgrond.png"),
@@ -216,9 +231,36 @@ public class NewOrderTab extends AbstractTab{
 	}
 
 
+	//'Submit' button action
+	private void addSubmitButtonAction(final JPanel parent, final MySQLConnect databaseConnection) {
+		submitNewOrderBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String technicianId = new String();
+					String clientId = new String();
 
-	private void addSubmitButtonAction(JPanel parent, MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
+					clientId = (String)clientsComboBox.getSelectedItem();
+					clientId = clientId.substring(clientId.indexOf(":")+1,clientId.indexOf(" "));
+					
+					technicianId = (String)techniciansComboBox.getSelectedItem();
+					technicianId = technicianId.substring(technicianId.indexOf(":")+1, technicianId.indexOf(" "));
+
+					databaseConnection.createOrder(componentTypeTxtField.getText(), componentModelTxtField.getText(),
+							clientId, technicianId,entryDateObsTxtField.getText());
+					
+					JOptionPane.showMessageDialog(parent,
+						    databaseConnection.newOrderResult(),
+						    "Warning",
+						    JOptionPane.INFORMATION_MESSAGE);
+					
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(parent,
+							"Not connected to a database",
+							"Error",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+			}
+		});
 
 	}
 
@@ -235,20 +277,44 @@ public class NewOrderTab extends AbstractTab{
 		});
 
 	}
-		
+
 	//Setting default date at entryDateObsTxtField
 	void setDefaultDate(){
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //2014-08-06
 		Date date = new Date();
 		entryDateObsTxtField.setText(dateFormat.format(date));
 	}
-	
+
 	//Local timezone detection
 	private Locale getLocale(String loc){
 		if(loc != null && loc.length() > 0){
 			return new Locale(loc);
 		}
 		else return Locale.US;
+	}
+
+	//Default ComboBox initialization
+	private void initializeComboBoxes(final MySQLConnect databaseConnection){
+
+		try {
+			databaseConnection.allClients();
+			databaseConnection.allTechnicians();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		clientsComboBox.removeAllItems();
+		techniciansComboBox.removeAllItems();
+
+		for(String str : databaseConnection.clientInfo()){
+			clientsComboBox.addItem(str);
+		}
+		for(String str : databaseConnection.techniciansInfo()){
+			techniciansComboBox.addItem(str);
+		}
+
+
 	}
 
 }

@@ -8,7 +8,6 @@ import java.awt.event.ItemListener;
 import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.Image;
-
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JButton;
@@ -17,20 +16,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-
 import java.sql.SQLException;
-
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.Date;
-import java.util.Locale;
 
 public class ComponentService {
 
@@ -39,14 +32,12 @@ public class ComponentService {
 	private  JPanel officePanel;
 	private  JPanel servicePanel;
 	private  JPanel menuPanel;
-	private JPanel newOrderPanel;
+
 	private JPanel checkOrderStatusPanel;
 	private JPanel myTasksPanel;
 	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
-	
-	private JComboBox<String> clientComboBox;
-	private JComboBox<String> techniciansComboBox;
+
 	
 	private JComboBox<String> myTasksTechsComboBox;
 	private JComboBox<String> myTasksChooseComboBox;
@@ -63,7 +54,6 @@ public class ComponentService {
 	private JLabel myTasksBackgroundLabel;
 	private JLabel repairComponentBackgroundLabel;
 	private JLabel repairDetailsBackgroundLabel;
-	private JLabel newOrderBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
 	private JLabel databaseConnectedLabel;
 	private JLabel MyTasksOrderIdLbl;
@@ -109,7 +99,6 @@ public class ComponentService {
 	private JButton myTasksBtn;
 	private JButton repairComponentBtn;
 	private JButton repairDetailsBtn;
-	private JButton newOrderBackBtn;
 	private JButton checkStatusBackBtn;
 	private JButton myTasksBackBtn;
 	private JButton repairComponentBackBtn;
@@ -121,14 +110,8 @@ public class ComponentService {
 	
 	private static MySQLConnect databaseConnection;
 	private static ComponentService window;
-	private JLabel newOrderlbl;
-	private JLabel componentTypelbl;
-	private JTextField componentTypeTxtField;
-	private JTextField componentModelTxtField;
-	private ObservingTextField newOrderEntryDatetxtField;
-	private JButton newOrderSubmitBtn;
-	private JButton newOrderClearBtn;
-	private JLabel label;
+
+
 	private JLabel myTasksLogoLbl;
 	private JLabel myTasksTechLbl;
 	private JLabel repairCompPriceLbl;
@@ -210,11 +193,7 @@ public class ComponentService {
 		myTasksPanel.setLayout(null);
 		myTasksPanel.setVisible(false);
 		
-		newOrderPanel = new JPanel();
-		newOrderPanel.setBounds(0, 0, 614, 344);
-		frame.getContentPane().add(newOrderPanel);
-		newOrderPanel.setLayout(null);
-		newOrderPanel.setVisible(false);
+
 				
 		
 		menuPanel = new JPanel();
@@ -443,26 +422,6 @@ public class ComponentService {
 				NewOrderTab newOrderTab = new NewOrderTab(officePanel, databaseConnection);
 				frame.getContentPane().add(newOrderTab.getNewOrderPanel());
 				
-				
-				try {
-					databaseConnection.allClients();
-					databaseConnection.allTechnicians();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-
-				clientComboBox.removeAllItems();
-				techniciansComboBox.removeAllItems();
-				
-				for(String str : databaseConnection.clientInfo()){
-					clientComboBox.addItem(str);
-				}
-				for(String str : databaseConnection.techniciansInfo()){
-					techniciansComboBox.addItem(str);
-				}
-				
 			}
 		});
 		newOrderBtn.setBounds(0, 11, 190, 40);
@@ -650,152 +609,11 @@ public class ComponentService {
 		officePanel.add(officeBackgroundLabel);
 		officeBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 		
-		componentTypeTxtField = new JTextField();
-		componentTypeTxtField.setToolTipText("");
-		componentTypeTxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		componentTypeTxtField.setForeground(Color.WHITE);
-		componentTypeTxtField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		componentTypeTxtField.setColumns(10);
-		componentTypeTxtField.setBackground(SystemColor.textHighlight);
-		componentTypeTxtField.setBounds(168, 84, 126, 27);
-//		newOrderPanel.add(componentTypeTxtField);
-		
-		componentTypelbl = new JLabel("Component type:");
-		componentTypelbl.setForeground(Color.RED);
-		componentTypelbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		componentTypelbl.setBounds(10, 72, 156, 50);
-//		newOrderPanel.add(componentTypelbl);
-		
-		newOrderlbl = new JLabel("New Order");
-		newOrderlbl.setForeground(SystemColor.textHighlight);
-		newOrderlbl.setFont(new Font("Tahoma", Font.BOLD, 30));
-		newOrderlbl.setBounds(10, 11, 300, 50);
-//		newOrderPanel.add(newOrderlbl);
-		
-		JLabel componentModellbl = new JLabel("Component model:");
-		componentModellbl.setForeground(Color.RED);
-		componentModellbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		componentModellbl.setBounds(304, 72, 163, 50);
-//		newOrderPanel.add(componentModellbl);
-		
-		
-		componentModelTxtField = new JTextField();
-		componentModelTxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		componentModelTxtField.setForeground(Color.WHITE);
-		componentModelTxtField.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		componentModelTxtField.setColumns(10);
-		componentModelTxtField.setBackground(SystemColor.textHighlight);
-		componentModelTxtField.setBounds(478, 84, 126, 27);
-//		newOrderPanel.add(componentModelTxtField);
-		
-		JLabel chooseClientLbl = new JLabel("Choose client");
-		chooseClientLbl.setForeground(Color.RED);
-		chooseClientLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		chooseClientLbl.setBounds(250, 122, 126, 40);
-//		newOrderPanel.add(chooseClientLbl);
-		
-		JLabel chooseTechnicLbl = new JLabel("Choose technician");
-		chooseTechnicLbl.setForeground(Color.RED);
-		chooseTechnicLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		chooseTechnicLbl.setBounds(238, 197, 156, 40);
-//		newOrderPanel.add(chooseTechnicLbl);
-		
-		JLabel entryDateLbl = new JLabel("Entry date");
-		entryDateLbl.setForeground(Color.RED);
-		entryDateLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		entryDateLbl.setBounds(161, 293, 95, 40);
-//		newOrderPanel.add(entryDateLbl);
-		
-		label = new JLabel("(*)required");
-		label.setForeground(Color.RED);
-		label.setFont(new Font("Tahoma", Font.ITALIC, 15));
-		label.setBounds(522, 318, 81, 26);
-//		newOrderPanel.add(label);
-		
-			//New Order clients COMBOBOX
-		clientComboBox = new JComboBox<String>();
-		clientComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		clientComboBox.setForeground(Color.WHITE);
-		clientComboBox.setBackground(SystemColor.textHighlight);
-		clientComboBox.setBounds(122, 161, 375, 33);
-//		newOrderPanel.add(clientComboBox);
-			//New Order technicians COMBOBOX
-		techniciansComboBox = new JComboBox<String>();
-		techniciansComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		techniciansComboBox.setForeground(Color.WHITE);
-		techniciansComboBox.setBackground(SystemColor.textHighlight);
-		techniciansComboBox.setBounds(122, 238, 375, 33);
-//		newOrderPanel.add(techniciansComboBox);
-		
-		newOrderEntryDatetxtField = new ObservingTextField();
-		newOrderEntryDatetxtField.setEditable(false);
-		newOrderEntryDatetxtField.setToolTipText("");
-		newOrderEntryDatetxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		newOrderEntryDatetxtField.setForeground(Color.WHITE);
-		newOrderEntryDatetxtField.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		newOrderEntryDatetxtField.setColumns(10);
-		newOrderEntryDatetxtField.setBackground(SystemColor.textHighlight);
-		newOrderEntryDatetxtField.setBounds(258, 300, 126, 27);
-//		newOrderPanel.add(newOrderEntryDatetxtField);
-		
-			//New Order Pick Entry Date Btn
-		JButton newOrderPickDateBtn = new JButton("Pick...");
-		newOrderPickDateBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String lang = null;
-				final Locale locale = getLocale(lang);
-				DatePicker dp = new DatePicker(newOrderEntryDatetxtField,locale);
-				Date selectedDate = dp.parseDate(newOrderEntryDatetxtField.getText());
-				dp.setSelectedDate(selectedDate);
-				dp.start(newOrderEntryDatetxtField);
-			}
-		});
-		newOrderPickDateBtn.setForeground(Color.WHITE);
-		newOrderPickDateBtn.setBackground(SystemColor.textHighlight);
-		newOrderPickDateBtn.setBounds(394, 301, 73, 23);
-//		newOrderPanel.add(newOrderPickDateBtn);
-		
-		newOrderSubmitBtn = new JButton("Submit");
-		newOrderSubmitBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					String technicianId = new String();
-					String clientId = new String();
-
-					clientId = (String)clientComboBox.getSelectedItem();
-					clientId = clientId.substring(clientId.indexOf(":")+1,clientId.indexOf(" "));
-					
-					technicianId = (String)techniciansComboBox.getSelectedItem();
-					technicianId = technicianId.substring(technicianId.indexOf(":")+1, technicianId.indexOf(" "));
-
-					databaseConnection.createOrder(componentTypeTxtField.getText(), componentModelTxtField.getText(),
-							clientId, technicianId,newOrderEntryDatetxtField.getText());
-					
-					JOptionPane.showMessageDialog(frame,
-						    databaseConnection.newOrderResult(),
-						    "Warning",
-						    JOptionPane.INFORMATION_MESSAGE);
-					
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
-		newOrderSubmitBtn.setFont(new Font("Tahoma", Font.BOLD, 16));
-		newOrderSubmitBtn.setForeground(Color.WHITE);
-		newOrderSubmitBtn.setBackground(SystemColor.textHighlight);
-		newOrderSubmitBtn.setBounds(507, 231, 97, 70);
-//		newOrderPanel.add(newOrderSubmitBtn);
-		
 
 		
 		
-			//New Order Background
-		newOrderBackgroundLabel = new JLabel("");
-		newOrderBackgroundLabel.setBounds(0, 0, 614, 344);
-//		newOrderPanel.add(newOrderBackgroundLabel);
-		newOrderBackgroundLabel.setIcon(new ImageIcon(officeBackground));
+		
+
 			//CheckStatus Background
 		checkStatusBackgroundLabel = new JLabel("");
 		checkStatusBackgroundLabel.setBounds(0, 0, 614, 344);
@@ -1306,7 +1124,7 @@ public class ComponentService {
 				DatePicker dp = new DatePicker(repairCompReadyTxtField);
 				Date selectedDate = dp.parseDate(repairCompReadyTxtField.getText());
 				dp.setSelectedDate(selectedDate);
-				dp.start(newOrderEntryDatetxtField);
+//				dp.start(newOrderEntryDatetxtField);
 			}
 		});
 		repairCompPickDateBtn.setForeground(Color.WHITE);
@@ -1345,12 +1163,7 @@ public class ComponentService {
 		}
 	}
 	
-	private Locale getLocale(String loc){
-		if(loc != null && loc.length() > 0){
-			return new Locale(loc);
-		}
-		else return Locale.US;
-	}
+
 	
 		//Column widht resizing of tables
 	public void resizeColumnWidth(JTable table) {
