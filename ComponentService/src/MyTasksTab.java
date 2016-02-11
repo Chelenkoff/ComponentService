@@ -1,13 +1,18 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 
 public class MyTasksTab extends AbstractTab{
 
@@ -43,7 +48,7 @@ public class MyTasksTab extends AbstractTab{
 	private JLabel entryDateActLabel;
 	private JLabel readyDateActLabel;
 
-	private JTextField diagnosticResultsTxtField;
+	private JTextArea diagnosticResultsTxtArea;
 
 	private JComboBox<String> technicianComboBox;
 	private JComboBox<String> taskComboBox;
@@ -135,23 +140,280 @@ public class MyTasksTab extends AbstractTab{
 		orderIdActLabel = new JLabel("");
 		designLabel(orderIdActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 71, 137, 158, 25);
 
+		//'Client:' Action label
+		clientActLabel = new JLabel("");
+		designLabel(clientActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 288, 139, 168, 25);
+
+		//'Price:' Action label
+		priceActLabel = new JLabel("");
+		designLabel(priceActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 16), 497, 136, 107, 25);
+
+		//'Component type:' Action label
+		componentTypeActLabel = new JLabel("");
+		designLabel(componentTypeActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 124, 169, 126, 25);
+
+		//'Client tel:' Action label
+		clientTelActLabel = new JLabel("");
+		designLabel(clientTelActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 305, 169, 151, 25);
+
+		//'Status:' Action label
+		statusActLabel = new JLabel("");
+		designLabel(statusActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 16), 496, 169, 108, 25);
+
+		//'Component model:' Action label
+		componentModelActLabel = new JLabel("");
+		designLabel(componentModelActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 134, 199, 197, 25);
+
+		//'Entry date:' Action label
+		entryDateActLabel = new JLabel("");
+		designLabel(entryDateActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 85, 231, 133, 25);
+
+		//'Ready date:' Action label
+		readyDateActLabel = new JLabel("");
+		designLabel(readyDateActLabel, Color.BLACK,new Font("Tahoma", Font.PLAIN, 15), 94, 263, 143, 25);
+
+		//Text area
+		//'Diagnostic results' txtArea
+		diagnosticResultsTxtArea = new JTextArea();
+		designDiagnosticTxtArea(diagnosticResultsTxtArea);
+
+		//Act content default clearance
+		clearActContent();
+
+		//Combo Boxes
+		//Technician combo box
+		technicianComboBox = new JComboBox<String>();
+		technicianComboBox.setForeground(Color.WHITE);
+		technicianComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		technicianComboBox.setBackground(SystemColor.textHighlight);
+		technicianComboBox.setBounds(5, 103, 263, 25);
+
+		//Tasks combo box
+		taskComboBox = new JComboBox<String>();
+		taskComboBox.setForeground(Color.WHITE);
+		taskComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		taskComboBox.setBackground(SystemColor.textHighlight);
+		taskComboBox.setBounds(341, 103, 263, 25);
+		addTasksComboBoxListener(databaseConnection);
+
+
+
+		//Comboboxes initialization
+		initializeComboBoxes(databaseConnection);
+
+		//My Tasks Background
+		backgroundLabel = new JLabel("");
+		designPanelBackground(backgroundLabel,this.getClass().getResource("/service_background.png"),
+				0,0,614,344);
+
+		//Adding components to 'My Tasks' panel
+		addComponentsToPanel();
+
+
 	}
 
-	private void addShowButtonAction(JPanel parent, MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
+	//'Tasks' Combo box listener
+	private void addTasksComboBoxListener(final MySQLConnect databaseConnection) {
+		taskComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+				
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    
+    				try {
+    					databaseConnection.componentInfo(taskComboBox.getSelectedItem().toString());
 
+    					orderIdActLabel.setText(databaseConnection.componentOrderId());
+    					componentTypeActLabel.setText(databaseConnection.componentType());
+    					componentModelActLabel.setText(databaseConnection.componentModel());
+    					entryDateActLabel.setText(databaseConnection.componentEntryDate());
+    					if(databaseConnection.componentReadyDate() == null){
+    						readyDateActLabel.setText("Not yet ready");
+    						
+    						
+    					}
+    					else{
+    						SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+    						String date_to_string = dateformatyyyyMMdd.format(databaseConnection.componentReadyDate());
+    						readyDateActLabel.setText(date_to_string);
+    					}
+    					clientActLabel.setText(databaseConnection.componentClientFirstName() + " " + databaseConnection.componentClientLastName());
+    					clientTelActLabel.setText(databaseConnection.componentClientTelNum());
+    					switch (databaseConnection.componentStatus()) {
+							case "Not yet started":
+								statusActLabel.setForeground(Color.RED);
+								break;
+							case "Being repaired...":
+								statusActLabel.setForeground(Color.ORANGE);
+								break;
+							case "Ready":
+								statusActLabel.setForeground(Color.GREEN);
+								break;
+
+							default:
+								break;
+						}
+    					statusActLabel.setText(databaseConnection.componentStatus());
+    					if(databaseConnection.componentOrderPrice() == 0.0){
+    						priceActLabel.setText("Not yet ready");
+    					}
+    					else{
+    						priceActLabel.setText(Float.toString(databaseConnection.componentOrderPrice()));
+    					}
+
+
+    					if(databaseConnection.componentDiagnosticResults() == null){
+    						diagnosticResultsTxtArea.setText("Not yet repaired");
+    					}
+    					else{
+    						diagnosticResultsTxtArea.setText(databaseConnection.componentDiagnosticResults());
+    					}
+    					
+    					
+    				} catch (SQLException e1) {
+    					// TODO Auto-generated catch block
+    					e1.printStackTrace();
+    				}
+                	
+                }
+
+			}
+		});
+		
 	}
 
+	//Panel Getter
+	public JPanel getMyTasksPanel(){
+		return myTasksPanel;
+	}
+
+	//Adding components to main panel 
 	@Override
 	void addComponentsToPanel() {
-		// TODO Auto-generated method stub
+
+		myTasksPanel.add(showBtn);
+		myTasksPanel.add(backBtn);
+
+		myTasksPanel.add(mainInfoLabel);
+		myTasksPanel.add(youAreInfoLabel);
+		myTasksPanel.add(chooseATaskInfoLabel);
+		myTasksPanel.add(orderIdInfoLabel);
+		myTasksPanel.add(clientInfoLabel);
+		myTasksPanel.add(priceInfoLabel);
+		myTasksPanel.add(componentTypeInfoLabel);
+		myTasksPanel.add(clientTelInfoLabel);
+		myTasksPanel.add(statusInfoLabel);
+		myTasksPanel.add(componentModelInfoLabel);
+		myTasksPanel.add(entryDateInfoLabel);
+		myTasksPanel.add(readyDateInfoLabel);
+		myTasksPanel.add(diagnosticResultsInfoLabel);
+
+		myTasksPanel.add(orderIdActLabel);
+		myTasksPanel.add(clientActLabel);
+		myTasksPanel.add(priceActLabel);
+		myTasksPanel.add(componentTypeActLabel);
+		myTasksPanel.add(clientTelActLabel);
+		myTasksPanel.add(statusActLabel);
+		myTasksPanel.add(componentModelActLabel);
+		myTasksPanel.add(entryDateActLabel);
+		myTasksPanel.add(readyDateActLabel);
+
+		myTasksPanel.add(diagnosticResultsTxtArea);
+
+		myTasksPanel.add(technicianComboBox);
+		myTasksPanel.add(taskComboBox);
+
+		myTasksPanel.add(backgroundLabel);
+
 
 	}
 
-	@Override
-	void addBackButtonAction(JPanel parentPanel) {
-		// TODO Auto-generated method stub
 
+
+	private void addShowButtonAction(JPanel parent, final MySQLConnect databaseConnection) {
+		showBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				taskComboBox.removeAllItems();
+
+				if(technicianComboBox.getSelectedItem() != null){
+				String record = technicianComboBox.getSelectedItem().toString();
+
+				try {
+				databaseConnection.showTasks(record);
+				
+				for(String str : databaseConnection.componentsInfo()){
+					taskComboBox.addItem(str);
+				}
+					} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				
+				if(taskComboBox.getItemCount() == 0){
+					clearActContent();
+				}
+
+				}
+			}
+			
+		});
+
+	}
+
+
+	//'Back' Button action
+	@Override
+	void addBackButtonAction(final JPanel parentPanel) {
+		backBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myTasksPanel.setVisible(false);
+				parentPanel.setVisible(true);
+
+
+			}
+		});
+
+	}
+	
+	//ACT content clear
+	private void clearActContent(){
+		orderIdActLabel.setText("");
+		componentTypeActLabel.setText("");
+		componentModelActLabel.setText("");
+		clientTelActLabel.setText("");
+		clientActLabel.setText("");
+		entryDateActLabel.setText("");
+		readyDateActLabel.setText("");
+		priceActLabel.setText("");
+		statusActLabel.setText("");
+		diagnosticResultsTxtArea.setText("");
+	}
+	//Default ComboBox initialization
+	private void initializeComboBoxes(MySQLConnect databaseConnection){
+		technicianComboBox.removeAllItems();
+		taskComboBox.removeAllItems();
+
+		try {
+			databaseConnection.allTechnicians();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+
+		for(String str : databaseConnection.techniciansInfo()){
+			technicianComboBox.addItem(str);
+
+		}
+	}
+	//Designing 'Diagnostic Results' txt area
+	private void designDiagnosticTxtArea(JTextArea area){
+		area.setForeground(Color.WHITE);
+		area.setBackground(SystemColor.textHighlight);
+		area.setFont(new Font("Monospaced", Font.PLAIN, 15));
+		area.setEditable(false);
+		area.setLineWrap(true);
+		area.setBounds(259, 256, 297, 85);
 	}
 
 }

@@ -37,10 +37,6 @@ public class ComponentService {
 	private JPanel myTasksPanel;
 	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
-
-	
-	private JComboBox<String> myTasksTechsComboBox;
-	private JComboBox<String> myTasksChooseComboBox;
 	
 	private JComboBox<String> repairCompTechComboBox;
 	private JComboBox<String> repairCompToRepairComboBox;
@@ -51,12 +47,10 @@ public class ComponentService {
 	private JLabel backgroundLabel;
 	private JLabel officeBackgroundLabel;
 	private JLabel serviceBackgroundLabel;
-	private JLabel myTasksBackgroundLabel;
 	private JLabel repairComponentBackgroundLabel;
 	private JLabel repairDetailsBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
 	private JLabel databaseConnectedLabel;
-	private JLabel MyTasksOrderIdLbl;
 	
 	private Image separatorImageIcon;
 	private Image backgroundIcon;
@@ -100,38 +94,17 @@ public class ComponentService {
 	private JButton repairComponentBtn;
 	private JButton repairDetailsBtn;
 	private JButton checkStatusBackBtn;
-	private JButton myTasksBackBtn;
 	private JButton repairComponentBackBtn;
 	private JButton repairDetailsBackBtn;
 	private JButton repairCompSubmitBtn;
 	
-	private JTextArea myTasksDiagnosticTxtField;
 	private JTextArea repairCompDiagnosticTextArea;
 	
 	private static MySQLConnect databaseConnection;
 	private static ComponentService window;
 
-
-	private JLabel myTasksLogoLbl;
-	private JLabel myTasksTechLbl;
 	private JLabel repairCompPriceLbl;
 
-	private JLabel componentModelLbl;
-	private JLabel myTasksComponentModelLbl;
-	private JLabel lblEntryDate;
-	private JLabel MyTasksEntryDateLbl;
-	private JLabel readyDateLbl;
-	private JLabel myTasksReadyDateLbl;
-	private JLabel clientLbl;
-	private JLabel myTasksClientLbl;
-	private JLabel MyTasksStatusLbl;
-	private JLabel statusLbl;
-	private JLabel priceLbl;
-	private JLabel myTasksPriceLbl;
-	private JLabel clientTelLbl;
-	private JLabel myTasksClientTelLbl;
-	private JLabel diagnosticResultsLbl;
-	private JLabel MyTasksComponentTypeLbl;
 	private JLabel repairComponentLbl;
 	private JLabel technicianLbl;
 	private JButton repairCompShowBtn;
@@ -193,15 +166,11 @@ public class ComponentService {
 		myTasksPanel.setLayout(null);
 		myTasksPanel.setVisible(false);
 		
-
-				
-		
 		menuPanel = new JPanel();
 		menuPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(menuPanel);
 		menuPanel.setLayout(null);
 		menuPanel.setVisible(true);
-		
 		
 		servicePanel = new JPanel();
 		servicePanel.setBounds(0, 0, 614, 344);
@@ -215,16 +184,11 @@ public class ComponentService {
 		officePanel.setLayout(null);
 		officePanel.setVisible(false);
 		
-
-		
 		checkOrderStatusPanel = new JPanel();
 		checkOrderStatusPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(checkOrderStatusPanel);
 		checkOrderStatusPanel.setLayout(null);
 		checkOrderStatusPanel.setVisible(false);
-		
-
-
 		
 		repairDetailsPanel = new JPanel();
 		repairDetailsPanel.setBounds(0, 0, 614, 344);
@@ -307,7 +271,6 @@ public class ComponentService {
 			checkOrderStatusPanel.setVisible(false);
 			officePanel.setVisible(true);
 			
-			
 		}
 	});
 	checkStatusBackBtn.setBounds(0, 294, 50, 50);
@@ -317,27 +280,6 @@ public class ComponentService {
 	checkStatusBackBtn.setIcon(new ImageIcon(backBtn));
 	checkStatusBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
 	checkOrderStatusPanel.add(checkStatusBackBtn);
-	
-			
-		//My Tasks Back Button
-	myTasksBackBtn = new JButton("");
-	myTasksBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			myTasksPanel.setVisible(false);
-			servicePanel.setVisible(true);
-			
-			
-		}
-	});
-	myTasksBackBtn.setBounds(0, 294, 50, 50);
-	myTasksBackBtn.setContentAreaFilled(false);
-	myTasksBackBtn.setBorderPainted(false);
-	myTasksBackBtn.setRolloverEnabled(true);
-	myTasksBackBtn.setIcon(new ImageIcon(backBtn));
-	myTasksBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	myTasksPanel.add(myTasksBackBtn);
-	
-	
 	
 		//Repair Component Back Button
 	repairComponentBackBtn = new JButton("");
@@ -355,10 +297,7 @@ public class ComponentService {
 	repairComponentBackBtn.setIcon(new ImageIcon(backBtn));
 	repairComponentBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
 	repairComponentPanel.add(repairComponentBackBtn);
-	
-	
-	
-	
+
 		//Repair Details Back Button
 	repairDetailsBackBtn = new JButton("");
 	repairDetailsBackBtn.addActionListener(new ActionListener() {
@@ -412,7 +351,6 @@ public class ComponentService {
 		menuPanel.add(databaseConnectedLabel);
 		backgroundLabel.setIcon(new ImageIcon(backgroundIcon));
 		menuPanel.add(backgroundLabel);
-
 		
 		//New Order BTN
 		newOrderBtn = new JButton("");
@@ -440,8 +378,6 @@ public class ComponentService {
 			public void actionPerformed(ActionEvent e) {
 				checkOrderStatusPanel.setVisible(true);
 				officePanel.setVisible(false);
-				
-				
 				
 			}
 		});
@@ -496,37 +432,9 @@ public class ComponentService {
 		myTasksBtn = new JButton("");
 		myTasksBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
-				servicePanel.setVisible(false);
-				myTasksPanel.setVisible(true);
 				
-				MyTasksOrderIdLbl.setText("");
-				MyTasksComponentTypeLbl.setText("");
-				myTasksComponentModelLbl.setText("");
-				myTasksClientTelLbl.setText("");
-				myTasksClientLbl.setText("");
-				MyTasksEntryDateLbl.setText("");
-				myTasksReadyDateLbl.setText("");
-				myTasksPriceLbl.setText("");
-				MyTasksStatusLbl.setText("");
-				myTasksDiagnosticTxtField.setText("");
-				
-				
-				myTasksTechsComboBox.removeAllItems();
-				myTasksChooseComboBox.removeAllItems();
-				
-				try {
-					databaseConnection.allTechnicians();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-
-				for(String str : databaseConnection.techniciansInfo()){
-					myTasksTechsComboBox.addItem(str);
-					
-				}
+				 MyTasksTab myTaskTab = new MyTasksTab(servicePanel,databaseConnection);
+				 frame.getContentPane().add(myTaskTab.getMyTasksPanel());
 
 			}
 		});
@@ -608,11 +516,6 @@ public class ComponentService {
 		officeBackgroundLabel.setBounds(0, 0, 614, 344);
 		officePanel.add(officeBackgroundLabel);
 		officeBackgroundLabel.setIcon(new ImageIcon(officeBackground));
-		
-
-		
-		
-		
 
 			//CheckStatus Background
 		checkStatusBackgroundLabel = new JLabel("");
@@ -629,297 +532,14 @@ public class ComponentService {
 		serviceBackgroundLabel.setBounds(0, 0, 614, 344);
 		serviceBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
 		servicePanel.add(serviceBackgroundLabel);
-		
-		myTasksLogoLbl = new JLabel("My Tasks");
-		myTasksLogoLbl.setBounds(10, 11, 151, 50);
-		myTasksPanel.add(myTasksLogoLbl);
-		myTasksLogoLbl.setForeground(SystemColor.textHighlight);
-		myTasksLogoLbl.setFont(new Font("Tahoma", Font.BOLD, 30));
-		
-		myTasksTechLbl = new JLabel("You are");
-		myTasksTechLbl.setForeground(Color.RED);
-		myTasksTechLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		myTasksTechLbl.setBounds(5, 64, 74, 40);
-		myTasksPanel.add(myTasksTechLbl);
-		
-		myTasksChooseComboBox = new JComboBox<String>();
-		myTasksChooseComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent event) {
-				
-                if (event.getStateChange() == ItemEvent.SELECTED) {
-                    
-    				try {
-    					databaseConnection.componentInfo(myTasksChooseComboBox.getSelectedItem().toString());
 
-    					MyTasksOrderIdLbl.setText(databaseConnection.componentOrderId());
-    					MyTasksComponentTypeLbl.setText(databaseConnection.componentType());
-    					myTasksComponentModelLbl.setText(databaseConnection.componentModel());
-    					MyTasksEntryDateLbl.setText(databaseConnection.componentEntryDate());
-    					if(databaseConnection.componentReadyDate() == null){
-    						myTasksReadyDateLbl.setText("Not yet ready");
-    						
-    						
-    					}
-    					else{
-    						SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
-    						String date_to_string = dateformatyyyyMMdd.format(databaseConnection.componentReadyDate());
-    						myTasksReadyDateLbl.setText(date_to_string);
-    					}
-    					myTasksClientLbl.setText(databaseConnection.componentClientFirstName() + " " + databaseConnection.componentClientLastName());
-    					myTasksClientTelLbl.setText(databaseConnection.componentClientTelNum());
-    					switch (databaseConnection.componentStatus()) {
-							case "Not yet started":
-								MyTasksStatusLbl.setForeground(Color.RED);
-								break;
-							case "Being repaired...":
-								MyTasksStatusLbl.setForeground(Color.ORANGE);
-								break;
-							case "Ready":
-								MyTasksStatusLbl.setForeground(Color.GREEN);
-								break;
-
-							default:
-								break;
-						}
-    					MyTasksStatusLbl.setText(databaseConnection.componentStatus());
-    					if(databaseConnection.componentOrderPrice() == 0.0){
-    						myTasksPriceLbl.setText("Not yet ready");
-    					}
-    					else{
-    						myTasksPriceLbl.setText(Float.toString(databaseConnection.componentOrderPrice()));
-    					}
-
-
-    					if(databaseConnection.componentDiagnosticResults() == null){
-    						myTasksDiagnosticTxtField.setText("Not yet repaired");
-    					}
-    					else{
-    						myTasksDiagnosticTxtField.setText(databaseConnection.componentDiagnosticResults());
-    					}
-    					
-    					
-    				} catch (SQLException e1) {
-    					// TODO Auto-generated catch block
-    					e1.printStackTrace();
-    				}
-                	
-                }
-
-				
-
-			}
-		});
-		myTasksChooseComboBox.setForeground(Color.WHITE);
-		myTasksChooseComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		myTasksChooseComboBox.setBackground(SystemColor.textHighlight);
-		myTasksChooseComboBox.setBounds(341, 103, 263, 25);
-		myTasksPanel.add(myTasksChooseComboBox);
-		
-		myTasksTechsComboBox = new JComboBox<String>();
-		myTasksTechsComboBox.setForeground(Color.WHITE);
-		myTasksTechsComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		myTasksTechsComboBox.setBackground(SystemColor.textHighlight);
-		myTasksTechsComboBox.setBounds(5, 103, 263, 25);
-		myTasksPanel.add(myTasksTechsComboBox);
-		
 		repairCompTechComboBox = new JComboBox<String>();
 		repairCompTechComboBox.setForeground(Color.WHITE);
 		repairCompTechComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		repairCompTechComboBox.setBackground(SystemColor.textHighlight);
 		repairCompTechComboBox.setBounds(10, 231, 263, 25);
 		repairComponentPanel.add(repairCompTechComboBox);
-		
 
-		
-		JLabel myTasksYourChooseLbl = new JLabel("Choose a task");
-		myTasksYourChooseLbl.setForeground(Color.RED);
-		myTasksYourChooseLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
-		myTasksYourChooseLbl.setBounds(341, 64, 126, 40);
-		myTasksPanel.add(myTasksYourChooseLbl);
-		
-		JLabel OrderIdLbl = new JLabel("Order ID:");
-		OrderIdLbl.setForeground(SystemColor.textHighlight);
-		OrderIdLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		OrderIdLbl.setBounds(10, 130, 60, 40);
-		myTasksPanel.add(OrderIdLbl);
-		
-		MyTasksOrderIdLbl = new JLabel("");
-		MyTasksOrderIdLbl.setForeground(Color.BLACK);
-		MyTasksOrderIdLbl.setBackground(SystemColor.textHighlight);
-		MyTasksOrderIdLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		MyTasksOrderIdLbl.setBounds(71, 137, 158, 25);
-		myTasksPanel.add(MyTasksOrderIdLbl);
-		
-		JLabel componentTypeLbl = new JLabel("Component type:");
-		componentTypeLbl.setForeground(SystemColor.textHighlight);
-		componentTypeLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		componentTypeLbl.setBounds(10, 162, 118, 40);
-		myTasksPanel.add(componentTypeLbl);
-		
-		MyTasksComponentTypeLbl = new JLabel("");
-		MyTasksComponentTypeLbl.setForeground(Color.BLACK);
-		MyTasksComponentTypeLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		MyTasksComponentTypeLbl.setBackground(SystemColor.textHighlight);
-		MyTasksComponentTypeLbl.setBounds(124, 169, 126, 25);
-		myTasksPanel.add(MyTasksComponentTypeLbl);
-		
-		componentModelLbl = new JLabel("Component model:");
-		componentModelLbl.setForeground(SystemColor.textHighlight);
-		componentModelLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		componentModelLbl.setBounds(10, 192, 126, 40);
-		myTasksPanel.add(componentModelLbl);
-		
-		myTasksComponentModelLbl = new JLabel("");
-		myTasksComponentModelLbl.setForeground(Color.BLACK);
-		myTasksComponentModelLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		myTasksComponentModelLbl.setBackground(SystemColor.textHighlight);
-		myTasksComponentModelLbl.setBounds(134, 199, 197, 25);
-		myTasksPanel.add(myTasksComponentModelLbl);
-		
-		lblEntryDate = new JLabel("Entry date:");
-		lblEntryDate.setForeground(SystemColor.textHighlight);
-		lblEntryDate.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblEntryDate.setBounds(10, 224, 74, 40);
-		myTasksPanel.add(lblEntryDate);
-		
-		MyTasksEntryDateLbl = new JLabel("");
-		MyTasksEntryDateLbl.setForeground(Color.BLACK);
-		MyTasksEntryDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		MyTasksEntryDateLbl.setBackground(SystemColor.textHighlight);
-		MyTasksEntryDateLbl.setBounds(85, 231, 133, 25);
-		myTasksPanel.add(MyTasksEntryDateLbl);
-		
-		readyDateLbl = new JLabel("Ready date:");
-		readyDateLbl.setForeground(SystemColor.textHighlight);
-		readyDateLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		readyDateLbl.setBounds(10, 256, 84, 40);
-		myTasksPanel.add(readyDateLbl);
-		
-		myTasksReadyDateLbl = new JLabel("");
-		myTasksReadyDateLbl.setForeground(Color.BLACK);
-		myTasksReadyDateLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		myTasksReadyDateLbl.setBackground(SystemColor.textHighlight);
-		myTasksReadyDateLbl.setBounds(94, 263, 143, 25);
-		myTasksPanel.add(myTasksReadyDateLbl);
-		
-		clientLbl = new JLabel("Client:");
-		clientLbl.setForeground(SystemColor.textHighlight);
-		clientLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		clientLbl.setBounds(240, 130, 55, 40);
-		myTasksPanel.add(clientLbl);
-		
-		myTasksClientLbl = new JLabel("");
-		myTasksClientLbl.setForeground(Color.BLACK);
-		myTasksClientLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		myTasksClientLbl.setBackground(SystemColor.textHighlight);
-		myTasksClientLbl.setBounds(288, 139, 168, 25);
-		myTasksPanel.add(myTasksClientLbl);
-		
-		MyTasksStatusLbl = new JLabel("");
-		MyTasksStatusLbl.setForeground(Color.BLACK);
-		MyTasksStatusLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		MyTasksStatusLbl.setBackground(SystemColor.textHighlight);
-		MyTasksStatusLbl.setBounds(496, 169, 108, 25);
-		myTasksPanel.add(MyTasksStatusLbl);
-		
-		statusLbl = new JLabel("Status:");
-		statusLbl.setForeground(SystemColor.textHighlight);
-		statusLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		statusLbl.setBounds(447, 162, 55, 40);
-		myTasksPanel.add(statusLbl);
-		
-		priceLbl = new JLabel("Price:");
-		priceLbl.setForeground(SystemColor.textHighlight);
-		priceLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
-		priceLbl.setBounds(447, 130, 50, 40);
-		myTasksPanel.add(priceLbl);
-		
-		myTasksPriceLbl = new JLabel("");
-		myTasksPriceLbl.setForeground(Color.BLACK);
-		myTasksPriceLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		myTasksPriceLbl.setBackground(SystemColor.textHighlight);
-		myTasksPriceLbl.setBounds(497, 136, 107, 25);
-		myTasksPanel.add(myTasksPriceLbl);
-		
-		clientTelLbl = new JLabel("Client Tel:");
-		clientTelLbl.setForeground(SystemColor.textHighlight);
-		clientTelLbl.setFont(new Font("Tahoma", Font.BOLD, 13));
-		clientTelLbl.setBounds(239, 162, 84, 40);
-		myTasksPanel.add(clientTelLbl);
-		
-		myTasksClientTelLbl = new JLabel("");
-		myTasksClientTelLbl.setForeground(Color.BLACK);
-		myTasksClientTelLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		myTasksClientTelLbl.setBackground(SystemColor.textHighlight);
-		myTasksClientTelLbl.setBounds(305, 169, 151, 25);
-		myTasksPanel.add(myTasksClientTelLbl);
-		
-		diagnosticResultsLbl = new JLabel("Diagnostic results:");
-		diagnosticResultsLbl.setForeground(SystemColor.textHighlight);
-		diagnosticResultsLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
-		diagnosticResultsLbl.setBounds(322, 224, 151, 25);
-		myTasksPanel.add(diagnosticResultsLbl);
-		
-		myTasksDiagnosticTxtField = new JTextArea();
-		myTasksDiagnosticTxtField.setForeground(Color.WHITE);
-		myTasksDiagnosticTxtField.setBackground(SystemColor.textHighlight);
-		myTasksDiagnosticTxtField.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		myTasksDiagnosticTxtField.setEditable(false);
-		myTasksDiagnosticTxtField.setLineWrap(true);
-		myTasksDiagnosticTxtField.setBounds(259, 256, 297, 85);
-		myTasksPanel.add(myTasksDiagnosticTxtField);
-		
-		
-		
-		JButton myTasksShowBtn = new JButton(">");
-		myTasksShowBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				myTasksChooseComboBox.removeAllItems();
-
-				if(myTasksTechsComboBox.getSelectedItem() != null){
-				String record = myTasksTechsComboBox.getSelectedItem().toString();
-
-				try {
-				databaseConnection.showTasks(record);
-				
-				for(String str : databaseConnection.componentsInfo()){
-					myTasksChooseComboBox.addItem(str);
-				}
-					} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-				
-				if(myTasksChooseComboBox.getItemCount() == 0){
-					MyTasksOrderIdLbl.setText("");
-					MyTasksComponentTypeLbl.setText("");
-					myTasksComponentModelLbl.setText("");
-					MyTasksEntryDateLbl.setText("");
-					myTasksReadyDateLbl.setText("");
-					myTasksClientLbl.setText("");
-					myTasksClientTelLbl.setText("");
-					MyTasksStatusLbl.setText("");
-					myTasksPriceLbl.setText("");
-					myTasksDiagnosticTxtField.setText("");
-				}
-
-				}
-			}
-			
-		});
-
-		myTasksShowBtn.setFont(new Font("Tahoma", Font.PLAIN, 26));
-		myTasksShowBtn.setForeground(Color.WHITE);
-		myTasksShowBtn.setBackground(SystemColor.textHighlight);
-		myTasksShowBtn.setBounds(278, 94, 53, 40);
-		myTasksPanel.add(myTasksShowBtn);
-			//MyTasks Background
-		myTasksBackgroundLabel = new JLabel("");
-		myTasksBackgroundLabel.setBounds(0, 0, 614, 344);
-		myTasksBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
-		myTasksPanel.add(myTasksBackgroundLabel);
-		
 		repairCompReadyTxtField = new ObservingTextField();
 		repairCompReadyTxtField.setToolTipText("");
 		repairCompReadyTxtField.setHorizontalAlignment(SwingConstants.CENTER);
@@ -997,7 +617,6 @@ public class ComponentService {
 		repairCompShowBtn.setBackground(SystemColor.textHighlight);
 		repairCompShowBtn.setBounds(287, 231, 41, 26);
 		repairComponentPanel.add(repairCompShowBtn);
-		
 		
 		JLabel toRepairLbl = new JLabel("Component to repair");
 		toRepairLbl.setForeground(Color.RED);
@@ -1097,8 +716,6 @@ public class ComponentService {
 		statusOrderLbl.setBounds(45, 315, 50, 25);
 		repairComponentPanel.add(statusOrderLbl);
 		
-			//
-		
 		repairCompStatusComboBox = new JComboBox<String>();
 		repairCompStatusComboBox.setForeground(Color.WHITE);
 		repairCompStatusComboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
@@ -1162,8 +779,6 @@ public class ComponentService {
 			databaseConnectedLabel.setText("Not connected to database");
 		}
 	}
-	
-
 	
 		//Column widht resizing of tables
 	public void resizeColumnWidth(JTable table) {
