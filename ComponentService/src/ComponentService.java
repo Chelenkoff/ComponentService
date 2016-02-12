@@ -1,4 +1,3 @@
-import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
@@ -27,8 +26,8 @@ import java.util.Date;
 
 public class ComponentService {
 
-	private JFrame frame;
-	
+	JFrame frame;
+
 	private  JPanel officePanel;
 	private  JPanel servicePanel;
 	private  JPanel menuPanel;
@@ -37,11 +36,11 @@ public class ComponentService {
 	private JPanel myTasksPanel;
 	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
-	
+
 	private JComboBox<String> repairCompTechComboBox;
 	private JComboBox<String> repairCompToRepairComboBox;
 	private JComboBox<String> repairCompStatusComboBox;
-	
+
 	private JLabel separatorImageLabel;
 	private JLabel logoLabel;
 	private JLabel backgroundLabel;
@@ -51,7 +50,7 @@ public class ComponentService {
 	private JLabel repairDetailsBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
 	private JLabel databaseConnectedLabel;
-	
+
 	private Image separatorImageIcon;
 	private Image backgroundIcon;
 	private Image officeIcon;
@@ -80,7 +79,7 @@ public class ComponentService {
 	private Image backRolloverBtn;
 	private Image serviceBackground;
 	private Image officeBackground;
-	
+
 	private ObservingTextField repairCompReadyTxtField;
 	private JButton officeBtn;
 	private JButton serviceButton;
@@ -97,54 +96,33 @@ public class ComponentService {
 	private JButton repairComponentBackBtn;
 	private JButton repairDetailsBackBtn;
 	private JButton repairCompSubmitBtn;
-	
+
 	private JTextArea repairCompDiagnosticTextArea;
-	
-	private static MySQLConnect databaseConnection;
-	private static ComponentService window;
+
 
 	private JLabel repairCompPriceLbl;
 
 	private JLabel repairComponentLbl;
 	private JLabel technicianLbl;
 	private JButton repairCompShowBtn;
-	
-	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					window = new ComponentService();
-					databaseConnection = new MySQLConnect();
-					databaseConnection.connectToDatabase();
-					window.frame.setVisible(true);
-					window.checkDatabaseConnectivity(databaseConnection.hasConnected());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	/**
 	 * Create the application.
 	 */
 	public ComponentService() {
 		initialize();
-		
+
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		//Design
-		
-			//Main Menu
+
+		//Main Menu
 		frame = new JFrame("Chelenkoff Service");
 		frame.setBounds(100, 100, 620, 370);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -153,58 +131,58 @@ public class ComponentService {
 		appIcon = new ImageIcon(this.getClass().getResource("/app_icon.png")).getImage();
 		frame.setIconImage(appIcon);
 
-		
+
 		repairComponentPanel = new JPanel();
 		repairComponentPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(repairComponentPanel);
 		repairComponentPanel.setLayout(null);
 		repairComponentPanel.setVisible(false);
-		
+
 		myTasksPanel = new JPanel();
 		myTasksPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(myTasksPanel);
 		myTasksPanel.setLayout(null);
 		myTasksPanel.setVisible(false);
-		
+
 		menuPanel = new JPanel();
 		menuPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(menuPanel);
 		menuPanel.setLayout(null);
 		menuPanel.setVisible(true);
-		
+
 		servicePanel = new JPanel();
 		servicePanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(servicePanel);
 		servicePanel.setLayout(null);
 		servicePanel.setVisible(false);
-		
+
 		officePanel = new JPanel();
 		officePanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(officePanel);
 		officePanel.setLayout(null);
 		officePanel.setVisible(false);
-		
+
 		checkOrderStatusPanel = new JPanel();
 		checkOrderStatusPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(checkOrderStatusPanel);
 		checkOrderStatusPanel.setLayout(null);
 		checkOrderStatusPanel.setVisible(false);
-		
+
 		repairDetailsPanel = new JPanel();
 		repairDetailsPanel.setBounds(0, 0, 614, 344);
 		frame.getContentPane().add(repairDetailsPanel);
 		repairDetailsPanel.setLayout(null);
 		repairDetailsPanel.setVisible(false);
-		
+
 		//Components
-			//Middle separator
+		//Middle separator
 		separatorImageLabel = new JLabel("");
 		separatorImageLabel.setBounds(265, 64, 90, 250);
 		separatorImageIcon = new ImageIcon(this.getClass().getResource("/separator.png")).getImage();
 		separatorImageLabel.setIcon(new ImageIcon(separatorImageIcon));
 		menuPanel.add(separatorImageLabel);
 
-			//Office button
+		//Office button
 		officeBtn = new JButton("");
 		officeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -221,14 +199,14 @@ public class ComponentService {
 		officeBtn.setIcon(new ImageIcon(officeIcon));
 		officeBtn.setRolloverIcon(new ImageIcon(officeRollover));
 		menuPanel.add(officeBtn);
-		
-			//Office HOME Button
+
+		//Office HOME Button
 		homeBtn = new JButton("");
 		homeBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menuPanel.setVisible(true);
 				officePanel.setVisible(false);
-				
+
 			}
 		});
 		homeBtn.setBounds(0, 294, 50, 50);
@@ -240,13 +218,13 @@ public class ComponentService {
 		homeBtn.setIcon(new ImageIcon(homeBtnIcon));
 		homeBtn.setRolloverIcon(new ImageIcon(homeBtnRollover));
 		officePanel.add(homeBtn);
-			//Service HOME Button
+		//Service HOME Button
 		homeBtnService = new JButton("");
 		homeBtnService.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				menuPanel.setVisible(true);
 				servicePanel.setVisible(false);
-				
+
 			}
 		});
 		homeBtnService.setBounds(0, 294, 50, 50);
@@ -258,62 +236,62 @@ public class ComponentService {
 		homeBtnService.setIcon(new ImageIcon(homeBtnIcon));
 		homeBtnService.setRolloverIcon(new ImageIcon(homeBtnRollover));
 		servicePanel.add(homeBtnService);
-		
+
 		//Back BTN
 		backBtn = new ImageIcon(this.getClass().getResource("/back_blackwhite.png")).getImage();
 		backRolloverBtn = new ImageIcon(this.getClass().getResource("/back_colored.png")).getImage();
-		
-	
+
+
 		//CheckStatus Back Button
-	checkStatusBackBtn = new JButton("");
-	checkStatusBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			checkOrderStatusPanel.setVisible(false);
-			officePanel.setVisible(true);
-			
-		}
-	});
-	checkStatusBackBtn.setBounds(0, 294, 50, 50);
-	checkStatusBackBtn.setContentAreaFilled(false);
-	checkStatusBackBtn.setBorderPainted(false);
-	checkStatusBackBtn.setRolloverEnabled(true);
-	checkStatusBackBtn.setIcon(new ImageIcon(backBtn));
-	checkStatusBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	checkOrderStatusPanel.add(checkStatusBackBtn);
-	
+		checkStatusBackBtn = new JButton("");
+		checkStatusBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				checkOrderStatusPanel.setVisible(false);
+				officePanel.setVisible(true);
+
+			}
+		});
+		checkStatusBackBtn.setBounds(0, 294, 50, 50);
+		checkStatusBackBtn.setContentAreaFilled(false);
+		checkStatusBackBtn.setBorderPainted(false);
+		checkStatusBackBtn.setRolloverEnabled(true);
+		checkStatusBackBtn.setIcon(new ImageIcon(backBtn));
+		checkStatusBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
+		checkOrderStatusPanel.add(checkStatusBackBtn);
+
 		//Repair Component Back Button
-	repairComponentBackBtn = new JButton("");
-	repairComponentBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			repairComponentPanel.setVisible(false);
-			servicePanel.setVisible(true);
-			
-		}
-	});
-	repairComponentBackBtn.setBounds(0, 294, 50, 50);
-	repairComponentBackBtn.setContentAreaFilled(false);
-	repairComponentBackBtn.setBorderPainted(false);
-	repairComponentBackBtn.setRolloverEnabled(true);
-	repairComponentBackBtn.setIcon(new ImageIcon(backBtn));
-	repairComponentBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	repairComponentPanel.add(repairComponentBackBtn);
+		repairComponentBackBtn = new JButton("");
+		repairComponentBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repairComponentPanel.setVisible(false);
+				servicePanel.setVisible(true);
+
+			}
+		});
+		repairComponentBackBtn.setBounds(0, 294, 50, 50);
+		repairComponentBackBtn.setContentAreaFilled(false);
+		repairComponentBackBtn.setBorderPainted(false);
+		repairComponentBackBtn.setRolloverEnabled(true);
+		repairComponentBackBtn.setIcon(new ImageIcon(backBtn));
+		repairComponentBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
+		repairComponentPanel.add(repairComponentBackBtn);
 
 		//Repair Details Back Button
-	repairDetailsBackBtn = new JButton("");
-	repairDetailsBackBtn.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			repairDetailsPanel.setVisible(false);
-			servicePanel.setVisible(true);
-		}
-	});
-	repairDetailsBackBtn.setBounds(0, 294, 50, 50);
-	repairDetailsBackBtn.setContentAreaFilled(false);
-	repairDetailsBackBtn.setBorderPainted(false);
-	repairDetailsBackBtn.setRolloverEnabled(true);
-	repairDetailsBackBtn.setIcon(new ImageIcon(backBtn));
-	repairDetailsBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-	repairDetailsPanel.add(repairDetailsBackBtn);
-	
+		repairDetailsBackBtn = new JButton("");
+		repairDetailsBackBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repairDetailsPanel.setVisible(false);
+				servicePanel.setVisible(true);
+			}
+		});
+		repairDetailsBackBtn.setBounds(0, 294, 50, 50);
+		repairDetailsBackBtn.setContentAreaFilled(false);
+		repairDetailsBackBtn.setBorderPainted(false);
+		repairDetailsBackBtn.setRolloverEnabled(true);
+		repairDetailsBackBtn.setIcon(new ImageIcon(backBtn));
+		repairDetailsBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
+		repairDetailsPanel.add(repairDetailsBackBtn);
+
 		serviceButton = new JButton("");
 		serviceButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -330,19 +308,19 @@ public class ComponentService {
 		serviceButton.setIcon(new ImageIcon(serviceIcon));
 		serviceButton.setRolloverIcon(new ImageIcon(serviceRollover));
 		menuPanel.add(serviceButton);
-		
-			//Service LOGO
+
+		//Service LOGO
 		logoLabel = new JLabel("");
 		logoLabel.setBounds(207, 11, 201, 52);
 		logoImageIcon = new ImageIcon(this.getClass().getResource("/logo.png")).getImage();
 		logoLabel.setIcon(new ImageIcon(logoImageIcon));
 		menuPanel.add(logoLabel);
-		
-			//App Background
+
+		//App Background
 		backgroundLabel = new JLabel("");
 		backgroundLabel.setBounds(0, 0, 614, 344);
 		backgroundIcon = new ImageIcon(this.getClass().getResource("/background.png")).getImage();
-		
+
 		databaseConnectedLabel = new JLabel("Not connected to database");
 		databaseConnectedLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 		databaseConnectedLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -351,15 +329,15 @@ public class ComponentService {
 		menuPanel.add(databaseConnectedLabel);
 		backgroundLabel.setIcon(new ImageIcon(backgroundIcon));
 		menuPanel.add(backgroundLabel);
-		
+
 		//New Order BTN
 		newOrderBtn = new JButton("");
 		newOrderBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				NewOrderTab newOrderTab = new NewOrderTab(officePanel, databaseConnection);
+
+				NewOrderTab newOrderTab = new NewOrderTab(officePanel, ComponentServiceMain.getDatabaseConnection());
 				frame.getContentPane().add(newOrderTab.getNewOrderPanel());
-				
+
 			}
 		});
 		newOrderBtn.setBounds(0, 11, 190, 40);
@@ -371,14 +349,14 @@ public class ComponentService {
 		newOrderBtn.setIcon(new ImageIcon(newOrderBtnIcon));
 		newOrderBtn.setRolloverIcon(new ImageIcon(newOrderBtnRollover));
 		officePanel.add(newOrderBtn);
-		
+
 		//CheckStatus BTN
 		checkStatusBtn = new JButton("");
 		checkStatusBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				checkOrderStatusPanel.setVisible(true);
 				officePanel.setVisible(false);
-				
+
 			}
 		});
 		checkStatusBtn.setBounds(0, 60, 190, 40);
@@ -390,12 +368,14 @@ public class ComponentService {
 		checkStatusBtn.setIcon(new ImageIcon(checkStatusBtnIcon));
 		checkStatusBtn.setRolloverIcon(new ImageIcon(checkStatusBtnRollover));
 		officePanel.add(checkStatusBtn);
-		
+
 		//NewClient BTN
 		newClientBtn = new JButton("");
 		newClientBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				NewClientTab newCLientTab = new NewClientTab(officePanel, databaseConnection);
+
+				NewClientTab newCLientTab = new NewClientTab(officePanel, ComponentServiceMain.getDatabaseConnection());
+
 				frame.getContentPane().add(newCLientTab.getNewClientPanel());
 			}
 		});
@@ -408,14 +388,14 @@ public class ComponentService {
 		newClientBtn.setIcon(new ImageIcon(newClientBtnIcon));
 		newClientBtn.setRolloverIcon(new ImageIcon(newClientBtnRollover));
 		officePanel.add(newClientBtn);
-		
+
 		//NewTechnician BTN
 		newTechnicianBtn = new JButton("");
 		newTechnicianBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				 NewTechnicianTab newTechTab = new NewTechnicianTab(officePanel,databaseConnection);
-				 frame.getContentPane().add(newTechTab.getNewTechnicianPanel());
+
+				NewTechnicianTab newTechTab = new NewTechnicianTab(officePanel,ComponentServiceMain.getDatabaseConnection());
+				frame.getContentPane().add(newTechTab.getNewTechnicianPanel());
 			}
 		});
 		newTechnicianBtn.setBounds(0, 161, 190, 40);
@@ -427,14 +407,14 @@ public class ComponentService {
 		newTechnicianBtn.setIcon(new ImageIcon(newTechnicianBtnIcon));
 		newTechnicianBtn.setRolloverIcon(new ImageIcon(newTechnicianBtnRollover));
 		officePanel.add(newTechnicianBtn);
-		
+
 		//MyTasks BTN
 		myTasksBtn = new JButton("");
 		myTasksBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				 MyTasksTab myTaskTab = new MyTasksTab(servicePanel,databaseConnection);
-				 frame.getContentPane().add(myTaskTab.getMyTasksPanel());
+
+				MyTasksTab myTaskTab = new MyTasksTab(servicePanel,ComponentServiceMain.getDatabaseConnection());
+				frame.getContentPane().add(myTaskTab.getMyTasksPanel());
 
 			}
 		});
@@ -447,7 +427,7 @@ public class ComponentService {
 		myTasksBtn.setIcon(new ImageIcon(myTasksBtnIcon));
 		myTasksBtn.setRolloverIcon(new ImageIcon(myTasksBtnRollover));
 		servicePanel.add(myTasksBtn);
-		
+
 		//RepairComponent BTN
 		repairComponentBtn = new JButton("");
 		repairComponentBtn.addActionListener(new ActionListener() {
@@ -456,29 +436,29 @@ public class ComponentService {
 				repairComponentPanel.setVisible(true);
 				repairCompSubmitBtn.setEnabled(false);
 
-				
+
 				repairCompTechComboBox.removeAllItems();
 				repairCompToRepairComboBox.removeAllItems();
 				repairCompStatusComboBox.removeAllItems();
-				
+
 				repairCompDiagnosticTextArea.setText("");
 				repairCompStatusComboBox.setSelectedItem(null);
 				repairCompPriceLbl.setText("");
 				repairCompReadyTxtField.setText("");
-				
+
 				try {
-					databaseConnection.allTechnicians();
+					ComponentServiceMain.getDatabaseConnection().allTechnicians();
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
 
-				for(String str : databaseConnection.techniciansInfo()){
+
+				for(String str : ComponentServiceMain.getDatabaseConnection().techniciansInfo()){
 					repairCompTechComboBox.addItem(str);
-					
+
 				}
-				
+
 			}
 		});
 		repairComponentBtn.setBounds(0, 60, 190, 40);
@@ -490,7 +470,7 @@ public class ComponentService {
 		repairComponentBtn.setIcon(new ImageIcon(repairComponentBtnIcon));
 		repairComponentBtn.setRolloverIcon(new ImageIcon(repairComponentBtnRollover));
 		servicePanel.add(repairComponentBtn);
-		
+
 		//Repair Details BTN
 		repairDetailsBtn = new JButton("");
 		repairDetailsBtn.addActionListener(new ActionListener() {
@@ -508,26 +488,26 @@ public class ComponentService {
 		repairDetailsBtn.setIcon(new ImageIcon(repairDetailsBtnIcon));
 		repairDetailsBtn.setRolloverIcon(new ImageIcon(repairDetailsBtnRollover));
 		servicePanel.add(repairDetailsBtn);
-		
+
 		//Office Background IMG
 		officeBackground = new ImageIcon(this.getClass().getResource("/office_backgrond.png")).getImage();
-			//Office Background
+		//Office Background
 		officeBackgroundLabel = new JLabel("");
 		officeBackgroundLabel.setBounds(0, 0, 614, 344);
 		officePanel.add(officeBackgroundLabel);
 		officeBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 
-			//CheckStatus Background
+		//CheckStatus Background
 		checkStatusBackgroundLabel = new JLabel("");
 		checkStatusBackgroundLabel.setBounds(0, 0, 614, 344);
 		checkOrderStatusPanel.add(checkStatusBackgroundLabel);
 		checkStatusBackgroundLabel.setIcon(new ImageIcon(officeBackground));
 
 
-		
+
 		//Service Background IMG
 		serviceBackground = new ImageIcon(this.getClass().getResource("/service_background.png")).getImage();
-			//Service Background
+		//Service Background
 		serviceBackgroundLabel = new JLabel("");
 		serviceBackgroundLabel.setBounds(0, 0, 614, 344);
 		serviceBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
@@ -550,40 +530,42 @@ public class ComponentService {
 		repairCompReadyTxtField.setBackground(SystemColor.textHighlight);
 		repairCompReadyTxtField.setBounds(474, 314, 104, 27);
 		repairComponentPanel.add(repairCompReadyTxtField);
-		
+
 		repairComponentLbl = new JLabel("Repair Component");
 		repairComponentLbl.setForeground(SystemColor.textHighlight);
 		repairComponentLbl.setFont(new Font("Tahoma", Font.BOLD, 30));
 		repairComponentLbl.setBounds(10, 0, 335, 50);
 		repairComponentPanel.add(repairComponentLbl);
-		
+
 		technicianLbl = new JLabel("You are");
 		technicianLbl.setForeground(Color.RED);
 		technicianLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
 		technicianLbl.setBounds(10, 206, 63, 31);
 		repairComponentPanel.add(technicianLbl);
-		
+
 		repairCompShowBtn = new JButton(">");
 		repairCompShowBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				repairCompToRepairComboBox.removeAllItems();
 				repairCompSubmitBtn.setEnabled(false);
 				if(repairCompTechComboBox.getSelectedItem() != null){
-				String record = repairCompTechComboBox.getSelectedItem().toString();
+					String record = repairCompTechComboBox.getSelectedItem().toString();
 
-				try {
-				databaseConnection.showTasks(record);
-				
-				for(String str : databaseConnection.componentsInfo()){
-					repairCompToRepairComboBox.addItem(str);
-				}
-					} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+					try {
+
+						ComponentServiceMain.getDatabaseConnection().showTasks(record);
+
+
+						for(String str : ComponentServiceMain.getDatabaseConnection().componentsInfo()){
+							repairCompToRepairComboBox.addItem(str);
 						}
-				
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
 				}
-				
+
 				if(repairCompToRepairComboBox.getItemCount() == 0){
 					repairCompDiagnosticTextArea.setText("");
 					repairCompStatusComboBox.setSelectedItem(null);
@@ -595,21 +577,22 @@ public class ComponentService {
 					repairCompStatusComboBox.addItem("Being repaired...");
 					repairCompStatusComboBox.addItem("Ready");
 				}
-				
+
 				//
 				try {
-					ResultSetTable techsTable  = new ResultSetTable(databaseConnection.partsInfo());
+
+					ResultSetTable techsTable  = new ResultSetTable(ComponentServiceMain.getDatabaseConnection().partsInfo());
 					techsTable.setBounds(50,100, 340,110);
 					techsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 					resizeColumnWidth(techsTable);
-					
+
 					repairComponentPanel.add(techsTable);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 				//
-				
+
 			}
 		});
 		repairCompShowBtn.setForeground(Color.WHITE);
@@ -617,58 +600,59 @@ public class ComponentService {
 		repairCompShowBtn.setBackground(SystemColor.textHighlight);
 		repairCompShowBtn.setBounds(287, 231, 41, 26);
 		repairComponentPanel.add(repairCompShowBtn);
-		
+
 		JLabel toRepairLbl = new JLabel("Component to repair");
 		toRepairLbl.setForeground(Color.RED);
 		toRepairLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
 		toRepairLbl.setBounds(341, 206, 164, 31);
 		repairComponentPanel.add(toRepairLbl);
-			//RepairComponent To Repair Combo Box
+		//RepairComponent To Repair Combo Box
 		repairCompToRepairComboBox = new JComboBox<String>();
 		repairCompToRepairComboBox.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent event) {
-				
-                if (event.getStateChange() == ItemEvent.SELECTED) {
-                	repairCompSubmitBtn.setEnabled(true);
-    				try {
-    					databaseConnection.componentPartsInfo(repairCompToRepairComboBox.getSelectedItem().toString());
+
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					repairCompSubmitBtn.setEnabled(true);
+					try {
+
+						ComponentServiceMain.getDatabaseConnection().componentPartsInfo(repairCompToRepairComboBox.getSelectedItem().toString());
+
+						if(ComponentServiceMain.getDatabaseConnection().componentReadyDate() == null){
+							repairCompReadyTxtField.setText("Not yet ready");
 
 
-    					if(databaseConnection.componentReadyDate() == null){
-    						repairCompReadyTxtField.setText("Not yet ready");
-    						
-    						
-    					}
-    					else{
-    						SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
-    						String date_to_string = dateformatyyyyMMdd.format(databaseConnection.componentReadyDate());
-    						repairCompReadyTxtField.setText(date_to_string);
-    					}
-    					
-    					repairCompStatusComboBox.setSelectedItem(databaseConnection.componentStatus());
+						}
+						else{
+							SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+							String date_to_string = dateformatyyyyMMdd.format(ComponentServiceMain.getDatabaseConnection().componentReadyDate());
+							repairCompReadyTxtField.setText(date_to_string);
+						}
 
-    					if(databaseConnection.componentOrderPrice() == 0.0){
-    						repairCompPriceLbl.setText("Not yet ready");
-    					}
-    					else{
-    						repairCompPriceLbl.setText(Float.toString(databaseConnection.componentOrderPrice()) + " levs");
-    					}
+						repairCompStatusComboBox.setSelectedItem(ComponentServiceMain.getDatabaseConnection().componentStatus());
+
+						if(ComponentServiceMain.getDatabaseConnection().componentOrderPrice() == 0.0){
+							repairCompPriceLbl.setText("Not yet ready");
+						}
+						else{
+							repairCompPriceLbl.setText(Float.toString(ComponentServiceMain.getDatabaseConnection().componentOrderPrice()) + " levs");
+						}
 
 
-    					if(databaseConnection.componentDiagnosticResults() == null){
-    						repairCompDiagnosticTextArea.setText("Not yet repaired");
-    					}
-    					else{
-    						repairCompDiagnosticTextArea.setText(databaseConnection.componentDiagnosticResults());
-    					}
-    					
-    					
-    				} catch (SQLException e1) {
-    					// TODO Auto-generated catch block
-    					e1.printStackTrace();
-    				}
-                	
-                }	
+						if(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults() == null){
+							repairCompDiagnosticTextArea.setText("Not yet repaired");
+						}
+						else{
+
+							repairCompDiagnosticTextArea.setText(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults());
+						}
+
+
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}	
 
 			}
 		});
@@ -677,24 +661,24 @@ public class ComponentService {
 		repairCompToRepairComboBox.setBackground(SystemColor.textHighlight);
 		repairCompToRepairComboBox.setBounds(341, 231, 263, 25);
 		repairComponentPanel.add(repairCompToRepairComboBox);
-		
+
 		repairCompSubmitBtn = new JButton("Submit");
 		repairCompSubmitBtn.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		repairCompSubmitBtn.setBackground(SystemColor.textHighlight);
 		repairCompSubmitBtn.setForeground(Color.WHITE);
 		repairCompSubmitBtn.setBounds(460, 268, 144, 42);
 		repairComponentPanel.add(repairCompSubmitBtn);
-		
+
 		JLabel orderPriceLbl = new JLabel("Order Price:");
 		orderPriceLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		orderPriceLbl.setForeground(SystemColor.textHighlight);
 		orderPriceLbl.setBounds(216, 315, 86, 25);
 		repairComponentPanel.add(orderPriceLbl);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(187, 268, 263, 42);
 		repairComponentPanel.add(scrollPane);
-		
+
 		repairCompDiagnosticTextArea = new JTextArea();
 		repairCompDiagnosticTextArea.setLineWrap(true);
 		repairCompDiagnosticTextArea.setForeground(Color.WHITE);
@@ -703,67 +687,67 @@ public class ComponentService {
 		repairCompDiagnosticTextArea.setBounds(425, 139, 179, 125);
 		scrollPane.setViewportView(repairCompDiagnosticTextArea);
 
-		
+
 		repairCompPriceLbl = new JLabel("New label");
 		repairCompPriceLbl.setForeground(Color.RED);
 		repairCompPriceLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		repairCompPriceLbl.setBounds(300, 316, 95, 23);
 		repairComponentPanel.add(repairCompPriceLbl);
-		
+
 		JLabel statusOrderLbl = new JLabel("Status:");
 		statusOrderLbl.setForeground(SystemColor.textHighlight);
 		statusOrderLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		statusOrderLbl.setBounds(45, 315, 50, 25);
 		repairComponentPanel.add(statusOrderLbl);
-		
+
 		repairCompStatusComboBox = new JComboBox<String>();
 		repairCompStatusComboBox.setForeground(Color.WHITE);
 		repairCompStatusComboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		repairCompStatusComboBox.setBackground(SystemColor.textHighlight);
 		repairCompStatusComboBox.setBounds(95, 314, 111, 25);
 		repairComponentPanel.add(repairCompStatusComboBox);
-		
+
 		JLabel orderPriceCompLbl = new JLabel("Ready date:");
 		orderPriceCompLbl.setForeground(SystemColor.textHighlight);
 		orderPriceCompLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		orderPriceCompLbl.setBounds(386, 315, 86, 25);
 		repairComponentPanel.add(orderPriceCompLbl);
-		
+
 		JLabel diagnosticResultslbl = new JLabel("Diagnostic results:");
 		diagnosticResultslbl.setForeground(SystemColor.textHighlight);
 		diagnosticResultslbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		diagnosticResultslbl.setBounds(60, 277, 121, 25);
 		repairComponentPanel.add(diagnosticResultslbl);
-		
+
 		JButton repairCompPickDateBtn = new JButton(". . .");
 		repairCompPickDateBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DatePicker dp = new DatePicker(repairCompReadyTxtField);
 				Date selectedDate = dp.parseDate(repairCompReadyTxtField.getText());
 				dp.setSelectedDate(selectedDate);
-//				dp.start(newOrderEntryDatetxtField);
+				//				dp.start(newOrderEntryDatetxtField);
 			}
 		});
 		repairCompPickDateBtn.setForeground(Color.WHITE);
 		repairCompPickDateBtn.setBackground(SystemColor.textHighlight);
 		repairCompPickDateBtn.setBounds(584, 315, 20, 23);
 		repairComponentPanel.add(repairCompPickDateBtn);
-			//RepairComponent Background
+		//RepairComponent Background
 		repairComponentBackgroundLabel = new JLabel("");
 		repairComponentBackgroundLabel.setBounds(0, 0, 614, 344);
 		repairComponentBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
 		repairComponentPanel.add(repairComponentBackgroundLabel);
-			//RepairDetails Background
+		//RepairDetails Background
 		repairDetailsBackgroundLabel = new JLabel("");
 		repairDetailsBackgroundLabel.setBounds(0, 0, 614, 344);
 		repairDetailsBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
 		repairDetailsPanel.add(repairDetailsBackgroundLabel);
-		
+
 
 	}
-	
+
 	//Checking database connectivity - label coloring
-	private void checkDatabaseConnectivity(boolean check){
+	void checkDatabaseConnectivity(boolean check){
 		if(check == true){
 			databaseConnectedLabel.setForeground(new Color(0, 205, 96));
 			databaseConnectedLabel.setText("Connected to database");
@@ -771,26 +755,26 @@ public class ComponentService {
 		else{
 			//Error dialog
 			JOptionPane.showMessageDialog(frame,
-				    "Unable to connect to the database",
-				    "Error",
-				    JOptionPane.ERROR_MESSAGE);
-			
+					"Unable to connect to the database",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+
 			databaseConnectedLabel.setForeground(new Color(255, 0, 0));
 			databaseConnectedLabel.setText("Not connected to database");
 		}
 	}
-	
-		//Column widht resizing of tables
+
+	//Column widht resizing of tables
 	public void resizeColumnWidth(JTable table) {
-	    final TableColumnModel columnModel = table.getColumnModel();
-	    for (int column = 0; column < table.getColumnCount(); column++) {
-	        int width = 1; // Min width
-	        for (int row = 0; row < table.getRowCount(); row++) {
-	            TableCellRenderer renderer = table.getCellRenderer(row, column);
-	            Component comp = table.prepareRenderer(renderer, row, column);
-	            width = Math.max(comp.getPreferredSize().width, width);
-	        }
-	        columnModel.getColumn(column).setPreferredWidth(width);
-	    }
+		final TableColumnModel columnModel = table.getColumnModel();
+		for (int column = 0; column < table.getColumnCount(); column++) {
+			int width = 1; // Min width
+			for (int row = 0; row < table.getRowCount(); row++) {
+				TableCellRenderer renderer = table.getCellRenderer(row, column);
+				Component comp = table.prepareRenderer(renderer, row, column);
+				width = Math.max(comp.getPreferredSize().width, width);
+			}
+			columnModel.getColumn(column).setPreferredWidth(width);
+		}
 	}
 }
