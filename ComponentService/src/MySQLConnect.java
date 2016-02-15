@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class MySQLConnect {
 	
 	//Establishing database connection
-	  private Connection connect = null;
+	  private static Connection connect;
 	  private PreparedStatement preparedStatement = null;
 	  private ResultSet resultSet = null;
 	  private boolean hasConnected = false;
@@ -192,6 +192,19 @@ public class MySQLConnect {
 	  }
 	  
 	  //Methods
+	  
+	  public static boolean isDbConnected() {
+		    final String CHECK_SQL_QUERY = "SELECT 1";
+		    boolean isConnected = false;
+		    try {
+		        final PreparedStatement statement = connect.prepareStatement(CHECK_SQL_QUERY);
+		        isConnected = true;
+		    } catch (SQLException | NullPointerException e) {
+		        // handle SQL error here!
+		    }
+		    return isConnected;
+		}
+	  
 	  public boolean checkConnectivity(){
 		  return hasConnected;
 	  }

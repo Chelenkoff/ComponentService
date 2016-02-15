@@ -54,7 +54,8 @@ public class NewOrderTab extends AbstractTab{
 			databaseConnection.allTechnicians();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("Cannot conet");
+//			e.printStackTrace();
 		}
 
 		initializeUI(parent, databaseConnection);	
@@ -161,7 +162,7 @@ public class NewOrderTab extends AbstractTab{
 		techniciansComboBox.setBounds(122, 238, 375, 33);
 
 		//Comboboxes initialization
-		initializeComboBoxes(databaseConnection);
+		initializeComboBoxes(parent,databaseConnection);
 
 		//NewOrder panel Background
 		newOrderBackgroundLabel = new JLabel("");
@@ -295,14 +296,17 @@ public class NewOrderTab extends AbstractTab{
 	}
 
 	//Default ComboBox initialization
-	private void initializeComboBoxes(final MySQLConnect databaseConnection){
+	private void initializeComboBoxes(final JPanel parent,final MySQLConnect databaseConnection){
 
 		try {
 			databaseConnection.allClients();
 			databaseConnection.allTechnicians();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(parent,
+					"Not connected to a database",
+					"Error",
+					JOptionPane.INFORMATION_MESSAGE);
+//			e.printStackTrace();
 		}
 
 		clientsComboBox.removeAllItems();
