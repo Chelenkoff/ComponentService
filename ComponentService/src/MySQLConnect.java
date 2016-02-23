@@ -204,6 +204,7 @@ public class MySQLConnect {
 		    }
 		    return isConnected;
 		}
+	  //Test
 	  
 	  public boolean checkConnectivity(){
 		  return hasConnected;
