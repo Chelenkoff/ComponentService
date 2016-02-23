@@ -43,7 +43,7 @@ public class MySQLConnect {
 	  // Database data
 	  private static final String DB_NAME = "component_service";
 	  private static final String DB_USERNAME = "root";
-	  private static final String DB_PASS = "Veca1994"; 
+	  private static final String DB_PASS = "1234"; 
   
 	  //Connecting to database
 	  public void connectToDatabase(){
@@ -204,7 +204,7 @@ public class MySQLConnect {
 		    }
 		    return isConnected;
 		}
-	  //Test
+	 
 	  
 	  public boolean checkConnectivity(){
 		  return hasConnected;

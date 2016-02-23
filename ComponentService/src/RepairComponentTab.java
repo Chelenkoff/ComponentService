@@ -1,17 +1,25 @@
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class RepairComponentTab  extends AbstractTab{
 
@@ -72,13 +80,14 @@ public class RepairComponentTab  extends AbstractTab{
 		submitBtn = new JButton("Submit");
 		designStandartButton(submitBtn, new Font("Tahoma", Font.PLAIN, 17),
 				SystemColor.textHighlight, Color.WHITE, 460, 268, 144, 42);
+		submitBtn.setEnabled(false);
 		addShowButtonAction(parent, databaseConnection);
 
 		//'...' Pick ready date button
 		pickReadyDateBtn = new JButton(". . .");
 		designStandartButton(pickReadyDateBtn, new Font("Tahoma", Font.PLAIN, 17),
 				SystemColor.textHighlight, Color.WHITE, 584, 315, 20, 23);
-		addShowButtonAction(parent, databaseConnection);
+		addPickDateButtonAction(parent, databaseConnection);
 
 		//'Back' Button
 		//BackButton design settings
@@ -176,33 +185,212 @@ public class RepairComponentTab  extends AbstractTab{
 		//Adding components to 'Repair Component' panel
 		addComponentsToPanel();
 	}
+	
+	
 
-
-
-	private void initializeComboBoxes(JPanel parent, MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
-		
+	//Getter
+	public JPanel getRepairComponentPanel(){
+		return repairComponentPanel;
 	}
-
-	private void addTasksComboBoxListener(MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private void addShowButtonAction(JPanel parent, MySQLConnect databaseConnection) {
-		// TODO Auto-generated method stub
-
-	}
-
+	
+	//Adding components to panel
 	@Override
 	void addComponentsToPanel() {
-		// TODO Auto-generated method stub
+		repairComponentPanel.add(showBtn);
+		repairComponentPanel.add(backBtn);
+		repairComponentPanel.add(submitBtn);
+		repairComponentPanel.add(pickReadyDateBtn);
+		
+		repairComponentPanel.add(mainInfoLabel);
+		repairComponentPanel.add(youAreInfoLabel);
+		repairComponentPanel.add(componentToRepairInfoLabel);
+		repairComponentPanel.add(diagnosticResultsInfoLabel);
+		repairComponentPanel.add(statusInfoLabel);
+		repairComponentPanel.add(orderPriceInfoLabel);
+		repairComponentPanel.add(readyDateInfoLabel);
+		
+		repairComponentPanel.add(orderPriceActLabel);
+		
+		repairComponentPanel.add(diagnosticResultsScrollPane);
+							
+		repairComponentPanel.add(technicianComboBox);
+		repairComponentPanel.add(componentComboBox);
+		repairComponentPanel.add(statusComboBox);
+		
+		repairComponentPanel.add(readyDateActObsTxtField);
+		
+		repairComponentPanel.add(backgroundLabel);
 
 	}
 
+
+	//Default ComboBox initialization
+	private void initializeComboBoxes(JPanel parent, MySQLConnect databaseConnection) {
+		
+		technicianComboBox.removeAllItems();
+		componentComboBox.removeAllItems();
+		statusComboBox.removeAllItems();
+		
+		try {
+			ComponentServiceMain.getDatabaseConnection().allTechnicians();
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		for(String str : ComponentServiceMain.getDatabaseConnection().techniciansInfo()){
+			technicianComboBox.addItem(str);
+
+		}
+		
+	}
+
+	//Tasks Combobox 'itemStateChanged' functionality
+	private void addTasksComboBoxListener(MySQLConnect databaseConnection) {
+		componentComboBox.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent event) {
+
+				if (event.getStateChange() == ItemEvent.SELECTED) {
+					submitBtn.setEnabled(true);
+					try {
+
+						ComponentServiceMain.getDatabaseConnection().componentPartsInfo(componentComboBox.getSelectedItem().toString());
+
+						if(ComponentServiceMain.getDatabaseConnection().componentReadyDate() == null){
+							readyDateActObsTxtField.setText("Not yet ready");
+
+
+						}
+						else{
+							SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+							String date_to_string = dateformatyyyyMMdd.format(ComponentServiceMain.getDatabaseConnection().componentReadyDate());
+							readyDateActObsTxtField.setText(date_to_string);
+						}
+
+						statusComboBox.setSelectedItem(ComponentServiceMain.getDatabaseConnection().componentStatus());
+
+						if(ComponentServiceMain.getDatabaseConnection().componentOrderPrice() == 0.0){
+							orderPriceActLabel.setText("Not yet ready");
+						}
+						else{
+							orderPriceActLabel.setText(Float.toString(ComponentServiceMain.getDatabaseConnection().componentOrderPrice()) + " levs");
+						}
+
+
+						if(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults() == null){
+							diagnosticResultsTxtArea.setText("Not yet repaired");
+						}
+						else{
+
+							diagnosticResultsTxtArea.setText(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults());
+						}
+
+
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}	
+
+			}
+		});
+		
+	}
+	
+	// ". . ." Pick date Button functionality
+	private void addPickDateButtonAction(JPanel parent, MySQLConnect databaseConnection) {
+		pickReadyDateBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DatePicker dp = new DatePicker(readyDateActObsTxtField);
+				Date selectedDate = dp.parseDate(readyDateActObsTxtField.getText());
+				dp.setSelectedDate(selectedDate);
+				dp.start(readyDateActObsTxtField);
+			}
+		});
+		
+	}
+
+	// ">" Button functionality
+	private void addShowButtonAction(JPanel parent, MySQLConnect databaseConnection) {
+		showBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				componentComboBox.removeAllItems();
+				submitBtn.setEnabled(false);
+				if(technicianComboBox.getSelectedItem() != null){
+					String record = technicianComboBox.getSelectedItem().toString();
+
+					try {
+
+						ComponentServiceMain.getDatabaseConnection().showTasks(record);
+
+
+						for(String str : ComponentServiceMain.getDatabaseConnection().componentsInfo()){
+							componentComboBox.addItem(str);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+
+				}
+
+				if(componentComboBox.getItemCount() == 0){
+					diagnosticResultsTxtArea.setText("");
+					statusComboBox.setSelectedItem(null);
+					orderPriceActLabel.setText("");
+					readyDateActObsTxtField.setText("");
+				}
+				else{
+					statusComboBox.removeAllItems();
+					statusComboBox.addItem("Not yet started");
+					statusComboBox.addItem("Being repaired...");
+					statusComboBox.addItem("Ready");
+				}
+
+				//
+				try {
+
+					ResultSetTable techsTable  = new ResultSetTable(ComponentServiceMain.getDatabaseConnection().partsInfo());
+					techsTable.setBounds(50,100, 340,110);
+					techsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+					resizeColumnWidth(techsTable);
+
+					repairComponentPanel.add(techsTable);
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				//
+
+			}
+
+			private void resizeColumnWidth(ResultSetTable techsTable) {
+				final TableColumnModel columnModel = techsTable.getColumnModel();
+				for (int column = 0; column < techsTable.getColumnCount(); column++) {
+					int width = 1; // Min width
+					for (int row = 0; row < techsTable.getRowCount(); row++) {
+						TableCellRenderer renderer = techsTable.getCellRenderer(row, column);
+						Component comp = techsTable.prepareRenderer(renderer, row, column);
+						width = Math.max(comp.getPreferredSize().width, width);
+					}
+					columnModel.getColumn(column).setPreferredWidth(width);
+				}
+				
+			}
+
+		});
+
+	}
+
+	//Back Button functionality
 	@Override
-	void addBackButtonAction(JPanel parentPanel) {
-		// TODO Auto-generated method stub
+	void addBackButtonAction(final JPanel parentPanel) {
+		backBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				repairComponentPanel.setVisible(false);
+				parentPanel.setVisible(true);
+			}
+		});
 
 	}
 	

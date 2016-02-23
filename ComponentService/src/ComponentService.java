@@ -2,27 +2,18 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.JTextArea;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class ComponentService {
 
@@ -34,19 +25,15 @@ public class ComponentService {
 
 	private JPanel checkOrderStatusPanel;
 	private JPanel myTasksPanel;
-	private JPanel repairComponentPanel;
 	private JPanel repairDetailsPanel;
 
-	private JComboBox<String> repairCompTechComboBox;
-	private JComboBox<String> repairCompToRepairComboBox;
-	private JComboBox<String> repairCompStatusComboBox;
 
 	private JLabel separatorImageLabel;
 	private JLabel logoLabel;
 	private JLabel backgroundLabel;
 	private JLabel officeBackgroundLabel;
 	private JLabel serviceBackgroundLabel;
-	private JLabel repairComponentBackgroundLabel;
+
 	private JLabel repairDetailsBackgroundLabel;
 	private JLabel checkStatusBackgroundLabel;
 	private JLabel databaseConnectedLabel;
@@ -80,7 +67,6 @@ public class ComponentService {
 	private Image serviceBackground;
 	private Image officeBackground;
 
-	private ObservingTextField repairCompReadyTxtField;
 	private JButton officeBtn;
 	private JButton serviceButton;
 	private JButton homeBtn;
@@ -93,18 +79,7 @@ public class ComponentService {
 	private JButton repairComponentBtn;
 	private JButton repairDetailsBtn;
 	private JButton checkStatusBackBtn;
-	private JButton repairComponentBackBtn;
-	private JButton repairDetailsBackBtn;
-	private JButton repairCompSubmitBtn;
 
-	private JTextArea repairCompDiagnosticTextArea;
-
-
-	private JLabel repairCompPriceLbl;
-
-	private JLabel repairComponentLbl;
-	private JLabel technicianLbl;
-	private JButton repairCompShowBtn;
 
 
 	/**
@@ -132,11 +107,11 @@ public class ComponentService {
 		frame.setIconImage(appIcon);
 
 
-		repairComponentPanel = new JPanel();
-		repairComponentPanel.setBounds(0, 0, 614, 344);
-		frame.getContentPane().add(repairComponentPanel);
-		repairComponentPanel.setLayout(null);
-		repairComponentPanel.setVisible(false);
+//		repairComponentPanel = new JPanel();
+//		repairComponentPanel.setBounds(0, 0, 614, 344);
+//		frame.getContentPane().add(repairComponentPanel);
+//		repairComponentPanel.setLayout(null);
+//		repairComponentPanel.setVisible(false);
 
 		myTasksPanel = new JPanel();
 		myTasksPanel.setBounds(0, 0, 614, 344);
@@ -259,38 +234,8 @@ public class ComponentService {
 		checkStatusBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
 		checkOrderStatusPanel.add(checkStatusBackBtn);
 
-		//Repair Component Back Button
-		repairComponentBackBtn = new JButton("");
-		repairComponentBackBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				repairComponentPanel.setVisible(false);
-				servicePanel.setVisible(true);
 
-			}
-		});
-		repairComponentBackBtn.setBounds(0, 294, 50, 50);
-		repairComponentBackBtn.setContentAreaFilled(false);
-		repairComponentBackBtn.setBorderPainted(false);
-		repairComponentBackBtn.setRolloverEnabled(true);
-		repairComponentBackBtn.setIcon(new ImageIcon(backBtn));
-		repairComponentBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-		repairComponentPanel.add(repairComponentBackBtn);
 
-		//Repair Details Back Button
-		repairDetailsBackBtn = new JButton("");
-		repairDetailsBackBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				repairDetailsPanel.setVisible(false);
-				servicePanel.setVisible(true);
-			}
-		});
-		repairDetailsBackBtn.setBounds(0, 294, 50, 50);
-		repairDetailsBackBtn.setContentAreaFilled(false);
-		repairDetailsBackBtn.setBorderPainted(false);
-		repairDetailsBackBtn.setRolloverEnabled(true);
-		repairDetailsBackBtn.setIcon(new ImageIcon(backBtn));
-		repairDetailsBackBtn.setRolloverIcon(new ImageIcon(backRolloverBtn));
-		repairDetailsPanel.add(repairDetailsBackBtn);
 
 		serviceButton = new JButton("");
 		serviceButton.addActionListener(new ActionListener() {
@@ -432,32 +377,9 @@ public class ComponentService {
 		repairComponentBtn = new JButton("");
 		repairComponentBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				servicePanel.setVisible(false);
-				repairComponentPanel.setVisible(true);
-				repairCompSubmitBtn.setEnabled(false);
-
-
-				repairCompTechComboBox.removeAllItems();
-				repairCompToRepairComboBox.removeAllItems();
-				repairCompStatusComboBox.removeAllItems();
-
-				repairCompDiagnosticTextArea.setText("");
-				repairCompStatusComboBox.setSelectedItem(null);
-				repairCompPriceLbl.setText("");
-				repairCompReadyTxtField.setText("");
-
-				try {
-					ComponentServiceMain.getDatabaseConnection().allTechnicians();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-
-				for(String str : ComponentServiceMain.getDatabaseConnection().techniciansInfo()){
-					repairCompTechComboBox.addItem(str);
-
-				}
+				
+				RepairComponentTab repairCompTab = new RepairComponentTab(servicePanel, ComponentServiceMain.getDatabaseConnection());
+				frame.getContentPane().add(repairCompTab.getRepairComponentPanel());
 
 			}
 		});
@@ -513,230 +435,7 @@ public class ComponentService {
 		serviceBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
 		servicePanel.add(serviceBackgroundLabel);
 
-		repairCompTechComboBox = new JComboBox<String>();
-		repairCompTechComboBox.setForeground(Color.WHITE);
-		repairCompTechComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		repairCompTechComboBox.setBackground(SystemColor.textHighlight);
-		repairCompTechComboBox.setBounds(10, 231, 263, 25);
-		repairComponentPanel.add(repairCompTechComboBox);
 
-		repairCompReadyTxtField = new ObservingTextField();
-		repairCompReadyTxtField.setToolTipText("");
-		repairCompReadyTxtField.setHorizontalAlignment(SwingConstants.CENTER);
-		repairCompReadyTxtField.setForeground(Color.WHITE);
-		repairCompReadyTxtField.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		repairCompReadyTxtField.setEditable(false);
-		repairCompReadyTxtField.setColumns(10);
-		repairCompReadyTxtField.setBackground(SystemColor.textHighlight);
-		repairCompReadyTxtField.setBounds(474, 314, 104, 27);
-		repairComponentPanel.add(repairCompReadyTxtField);
-
-		repairComponentLbl = new JLabel("Repair Component");
-		repairComponentLbl.setForeground(SystemColor.textHighlight);
-		repairComponentLbl.setFont(new Font("Tahoma", Font.BOLD, 30));
-		repairComponentLbl.setBounds(10, 0, 335, 50);
-		repairComponentPanel.add(repairComponentLbl);
-
-		technicianLbl = new JLabel("You are");
-		technicianLbl.setForeground(Color.RED);
-		technicianLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
-		technicianLbl.setBounds(10, 206, 63, 31);
-		repairComponentPanel.add(technicianLbl);
-
-		repairCompShowBtn = new JButton(">");
-		repairCompShowBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				repairCompToRepairComboBox.removeAllItems();
-				repairCompSubmitBtn.setEnabled(false);
-				if(repairCompTechComboBox.getSelectedItem() != null){
-					String record = repairCompTechComboBox.getSelectedItem().toString();
-
-					try {
-
-						ComponentServiceMain.getDatabaseConnection().showTasks(record);
-
-
-						for(String str : ComponentServiceMain.getDatabaseConnection().componentsInfo()){
-							repairCompToRepairComboBox.addItem(str);
-						}
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				}
-
-				if(repairCompToRepairComboBox.getItemCount() == 0){
-					repairCompDiagnosticTextArea.setText("");
-					repairCompStatusComboBox.setSelectedItem(null);
-					repairCompPriceLbl.setText("");
-					repairCompReadyTxtField.setText("");
-				}
-				else{
-					repairCompStatusComboBox.addItem("Not yet started");
-					repairCompStatusComboBox.addItem("Being repaired...");
-					repairCompStatusComboBox.addItem("Ready");
-				}
-
-				//
-				try {
-
-					ResultSetTable techsTable  = new ResultSetTable(ComponentServiceMain.getDatabaseConnection().partsInfo());
-					techsTable.setBounds(50,100, 340,110);
-					techsTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-					resizeColumnWidth(techsTable);
-
-					repairComponentPanel.add(techsTable);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				//
-
-			}
-		});
-		repairCompShowBtn.setForeground(Color.WHITE);
-		repairCompShowBtn.setFont(new Font("Tahoma", Font.PLAIN, 10));
-		repairCompShowBtn.setBackground(SystemColor.textHighlight);
-		repairCompShowBtn.setBounds(287, 231, 41, 26);
-		repairComponentPanel.add(repairCompShowBtn);
-
-		JLabel toRepairLbl = new JLabel("Component to repair");
-		toRepairLbl.setForeground(Color.RED);
-		toRepairLbl.setFont(new Font("Tahoma", Font.BOLD, 15));
-		toRepairLbl.setBounds(341, 206, 164, 31);
-		repairComponentPanel.add(toRepairLbl);
-		//RepairComponent To Repair Combo Box
-		repairCompToRepairComboBox = new JComboBox<String>();
-		repairCompToRepairComboBox.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent event) {
-
-				if (event.getStateChange() == ItemEvent.SELECTED) {
-					repairCompSubmitBtn.setEnabled(true);
-					try {
-
-						ComponentServiceMain.getDatabaseConnection().componentPartsInfo(repairCompToRepairComboBox.getSelectedItem().toString());
-
-						if(ComponentServiceMain.getDatabaseConnection().componentReadyDate() == null){
-							repairCompReadyTxtField.setText("Not yet ready");
-
-
-						}
-						else{
-							SimpleDateFormat dateformatyyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
-							String date_to_string = dateformatyyyyMMdd.format(ComponentServiceMain.getDatabaseConnection().componentReadyDate());
-							repairCompReadyTxtField.setText(date_to_string);
-						}
-
-						repairCompStatusComboBox.setSelectedItem(ComponentServiceMain.getDatabaseConnection().componentStatus());
-
-						if(ComponentServiceMain.getDatabaseConnection().componentOrderPrice() == 0.0){
-							repairCompPriceLbl.setText("Not yet ready");
-						}
-						else{
-							repairCompPriceLbl.setText(Float.toString(ComponentServiceMain.getDatabaseConnection().componentOrderPrice()) + " levs");
-						}
-
-
-						if(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults() == null){
-							repairCompDiagnosticTextArea.setText("Not yet repaired");
-						}
-						else{
-
-							repairCompDiagnosticTextArea.setText(ComponentServiceMain.getDatabaseConnection().componentDiagnosticResults());
-						}
-
-
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-
-				}	
-
-			}
-		});
-		repairCompToRepairComboBox.setForeground(Color.WHITE);
-		repairCompToRepairComboBox.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		repairCompToRepairComboBox.setBackground(SystemColor.textHighlight);
-		repairCompToRepairComboBox.setBounds(341, 231, 263, 25);
-		repairComponentPanel.add(repairCompToRepairComboBox);
-
-		repairCompSubmitBtn = new JButton("Submit");
-		repairCompSubmitBtn.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		repairCompSubmitBtn.setBackground(SystemColor.textHighlight);
-		repairCompSubmitBtn.setForeground(Color.WHITE);
-		repairCompSubmitBtn.setBounds(460, 268, 144, 42);
-		repairComponentPanel.add(repairCompSubmitBtn);
-
-		JLabel orderPriceLbl = new JLabel("Order Price:");
-		orderPriceLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		orderPriceLbl.setForeground(SystemColor.textHighlight);
-		orderPriceLbl.setBounds(216, 315, 86, 25);
-		repairComponentPanel.add(orderPriceLbl);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(187, 268, 263, 42);
-		repairComponentPanel.add(scrollPane);
-
-		repairCompDiagnosticTextArea = new JTextArea();
-		repairCompDiagnosticTextArea.setLineWrap(true);
-		repairCompDiagnosticTextArea.setForeground(Color.WHITE);
-		repairCompDiagnosticTextArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		repairCompDiagnosticTextArea.setBackground(SystemColor.textHighlight);
-		repairCompDiagnosticTextArea.setBounds(425, 139, 179, 125);
-		scrollPane.setViewportView(repairCompDiagnosticTextArea);
-
-
-		repairCompPriceLbl = new JLabel("New label");
-		repairCompPriceLbl.setForeground(Color.RED);
-		repairCompPriceLbl.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		repairCompPriceLbl.setBounds(300, 316, 95, 23);
-		repairComponentPanel.add(repairCompPriceLbl);
-
-		JLabel statusOrderLbl = new JLabel("Status:");
-		statusOrderLbl.setForeground(SystemColor.textHighlight);
-		statusOrderLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		statusOrderLbl.setBounds(45, 315, 50, 25);
-		repairComponentPanel.add(statusOrderLbl);
-
-		repairCompStatusComboBox = new JComboBox<String>();
-		repairCompStatusComboBox.setForeground(Color.WHITE);
-		repairCompStatusComboBox.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		repairCompStatusComboBox.setBackground(SystemColor.textHighlight);
-		repairCompStatusComboBox.setBounds(95, 314, 111, 25);
-		repairComponentPanel.add(repairCompStatusComboBox);
-
-		JLabel orderPriceCompLbl = new JLabel("Ready date:");
-		orderPriceCompLbl.setForeground(SystemColor.textHighlight);
-		orderPriceCompLbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		orderPriceCompLbl.setBounds(386, 315, 86, 25);
-		repairComponentPanel.add(orderPriceCompLbl);
-
-		JLabel diagnosticResultslbl = new JLabel("Diagnostic results:");
-		diagnosticResultslbl.setForeground(SystemColor.textHighlight);
-		diagnosticResultslbl.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		diagnosticResultslbl.setBounds(60, 277, 121, 25);
-		repairComponentPanel.add(diagnosticResultslbl);
-
-		JButton repairCompPickDateBtn = new JButton(". . .");
-		repairCompPickDateBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				DatePicker dp = new DatePicker(repairCompReadyTxtField);
-				Date selectedDate = dp.parseDate(repairCompReadyTxtField.getText());
-				dp.setSelectedDate(selectedDate);
-				//				dp.start(newOrderEntryDatetxtField);
-			}
-		});
-		repairCompPickDateBtn.setForeground(Color.WHITE);
-		repairCompPickDateBtn.setBackground(SystemColor.textHighlight);
-		repairCompPickDateBtn.setBounds(584, 315, 20, 23);
-		repairComponentPanel.add(repairCompPickDateBtn);
-		//RepairComponent Background
-		repairComponentBackgroundLabel = new JLabel("");
-		repairComponentBackgroundLabel.setBounds(0, 0, 614, 344);
-		repairComponentBackgroundLabel.setIcon(new ImageIcon(serviceBackground));
-		repairComponentPanel.add(repairComponentBackgroundLabel);
 		//RepairDetails Background
 		repairDetailsBackgroundLabel = new JLabel("");
 		repairDetailsBackgroundLabel.setBounds(0, 0, 614, 344);
